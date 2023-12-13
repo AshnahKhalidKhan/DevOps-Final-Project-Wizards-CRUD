@@ -1,58 +1,87 @@
+import fs from "fs";
+const dataPath = "./Data/wizards.json";
+
+//some util functions for reading from and writing to the json datafile
+const saveWizData = (data) => {
+  const stringifyData = JSON.stringify(data);
+  fs.writeFileSync(dataPath, stringifyData);
+};
+
+const getWizData = () => {
+  const jsonData = fs.readFileSync(dataPath);
+  return JSON.parse(jsonData);
+};
+
 let wizards = [];
 
 export const getWizards = async (req, res) => {
   try {
+    const wizards = getWizData();
     res.json(wizards);
   } catch (err) {
-    res.status(500);
-    console.log(err);
+    res.status(500).json({ message: "Server error" });
   }
 };
 
 export const getOneWizard = async (req, res) => {
   const wizName = req.params.name;
+  const wizards = getWizData();
   const oneWizard = wizards.find((wizard) => wizard.name === wizName);
+
   if (oneWizard) {
     res.json(oneWizard);
+  } else {
+    res.status(404).json({ message: "Wizard not found" });
   }
-  res.status(404);
 };
 
 export const createWizard = async (req, res) => {
   const newWiz = req.body;
+  const wizards = getWizData();
+
   if (newWiz.name) {
     wizards.push({ ...newWiz });
-    return res
+    saveWizData(wizards);
+    res
       .status(201)
       .json({ message: `New wizard [${newWiz.name}] added successfully` });
+  } else {
+    res.status(400).json({ message: "Invalid wizard data" });
   }
-  return res.status(500).json({ message: "Server error" });
 };
 
 export const updateWizard = async (req, res) => {
   const { name } = req.params;
   const { name: newName, Age } = req.body;
+  let wizards = getWizData();
 
-  const updatedWiz = wizards.find((wiz) => wiz.name === name);
+  const wizardIndex = wizards.findIndex((wiz) => wiz.name === name);
 
-  if (!updatedWiz) {
+  if (wizardIndex === -1) {
     return res.status(404).json({ message: "Wizard not found" });
   }
 
   if (newName !== undefined) {
-    updatedWiz.name = newName;
-    console.log(`${name}'s name has been updated to ${newName}`);
+    wizards[wizardIndex].name = newName;
   }
   if (Age !== undefined) {
-    updatedWiz.Age = Age;
-    console.log(`${name}'s age has been updated to ${Age}`);
+    wizards[wizardIndex].Age = Age;
   }
 
-  return res.status(200).json({ message: "Wizard updated successfully" });
+  saveWizData(wizards);
+  res.status(200).json({ message: "Wizard updated successfully" });
 };
 
 export const deleteWizard = async (req, res) => {
   const wizName = req.params.name;
+  let wizards = getWizData();
+
+  const wizardExists = wizards.some((wiz) => wiz.name === wizName);
+  if (!wizardExists) {
+    return res.status(404).json({ message: "Wizard not found" });
+  }
+
   wizards = wizards.filter((wiz) => wiz.name !== wizName);
-  return res.status(204).json({ message: "Item deleted" });
+  saveWizData(wizards);
+  res.status(204).json({ message: "Wizard deleted" });
 };
