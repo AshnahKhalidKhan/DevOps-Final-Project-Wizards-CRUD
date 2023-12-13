@@ -1,17 +1,18 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 import wizardRoutes from './routes/wizards.js';
+import cors from 'cors';
+import { BACKEND_PORT, FRONTEND_IP } from './Constants/portConstants.js';
 
 const app = express();
-const PORT = 5000;
 
 app.use(bodyParser.json());
-
+app.use(cors({ origin: FRONTEND_IP, credentials: true }));
 app.use('/wizards', wizardRoutes)
 
 app.get('/', (req, res) => {
-    console.log('TEST');
-    res.send('Hello yall');
+    console.log('ROOT-TEST');
+    res.send('Hello! This is the Root directory, please proceed to type /wizards in the address bar.');
 })
 
-app.listen(PORT, () => console.log(`Server running on port: http://localhost:${PORT}`));
+app.listen(BACKEND_PORT, () => console.log(`Server running on port: http://localhost:${BACKEND_PORT}`));
