@@ -1,6 +1,5 @@
 let wizards = [];
 
-//get working correctly, chacked using postman
 export const getWizards = async (req, res) => {
   try {
     res.json(wizards);
@@ -10,41 +9,50 @@ export const getWizards = async (req, res) => {
   }
 };
 
-//fine tune this
 export const getOneWizard = async (req, res) => {
-    const wizName = req.params.name
-    const oneWizard = wizards.find(wizard => { wizard.name === wizName})
-    if(oneWizard)
-    {
-      res.json(oneWizard)
-    }
-    res.status(404);
+  const wizName = req.params.name;
+  const oneWizard = wizards.find((wizard) => wizard.name === wizName);
+  if (oneWizard) {
+    res.json(oneWizard);
   }
+  res.status(404);
+};
 
-//post working correctly, checked using postman
 export const createWizard = async (req, res) => {
   const newWiz = req.body;
   if (newWiz.name) {
-    wizards.push({...newWiz});
-    return res.status(201).json({ message: `New wizard [${newWiz.name}] added successfully` });
+    wizards.push({ ...newWiz });
+    return res
+      .status(201)
+      .json({ message: `New wizard [${newWiz.name}] added successfully` });
   }
   return res.status(500).json({ message: "Server error" });
 };
 
 export const updateWizard = async (req, res) => {
-    const wiz = wizards.find((wiz) => wiz.name === req.params.name);
-    
-    wiz.name = req.body.name;
-    wiz.Age = req.body.age;
+  const { name } = req.params;
+  const { name: newName, Age } = req.body;
 
-    console.log(`name has been updated to ${req.body.name}.age has been updated to ${req.body.age}`)
+  const updatedWiz = wizards.find((wiz) => wiz.name === name);
 
+  if (!updatedWiz) {
+    return res.status(404).json({ message: "Wizard not found" });
   }
-  
-  export const deleteWizard = async (req, res) => {
-    const wizName = req.params.name;
-    wizards = wizards.filter( wiz => wiz.name !== wizName)
-    return res.status(204).json({ message: "Item deleted" });
-  }
-  
 
+  if (newName !== undefined) {
+    updatedWiz.name = newName;
+    console.log(`${name}'s name has been updated to ${newName}`);
+  }
+  if (Age !== undefined) {
+    updatedWiz.Age = Age;
+    console.log(`${name}'s age has been updated to ${Age}`);
+  }
+
+  return res.status(200).json({ message: "Wizard updated successfully" });
+};
+
+export const deleteWizard = async (req, res) => {
+  const wizName = req.params.name;
+  wizards = wizards.filter((wiz) => wiz.name !== wizName);
+  return res.status(204).json({ message: "Item deleted" });
+};
