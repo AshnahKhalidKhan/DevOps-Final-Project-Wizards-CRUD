@@ -12,8 +12,6 @@ const getWizData = () => {
   return JSON.parse(jsonData);
 };
 
-let wizards = [];
-
 export const getWizards = async (req, res) => {
   try {
     const wizards = getWizData();
