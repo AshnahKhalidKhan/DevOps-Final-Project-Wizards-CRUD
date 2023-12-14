@@ -1,23 +1,13 @@
-import fs from "fs";
-const dataPath = "./Data/wizards.json";
-
-//some util functions for reading from and writing to the json datafile
-const saveWizData = (data) => {
-  const stringifyData = JSON.stringify(data);
-  fs.writeFileSync(dataPath, stringifyData);
-};
-
-const getWizData = () => {
-  const jsonData = fs.readFileSync(dataPath);
-  return JSON.parse(jsonData);
-};
+import utils from '../utils/index.js'
+const { getWizData, saveWizData } = utils;
 
 export const getWizards = async (req, res) => {
   try {
     const wizards = getWizData();
     res.json(wizards);
   } catch (err) {
-    res.status(500).json({ message: "Server error" });
+    res.status(500).json({ message: "Server error yoyoyo" });
+    console.log(err);
   }
 };
 

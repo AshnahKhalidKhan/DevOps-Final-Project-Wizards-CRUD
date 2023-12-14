@@ -2,7 +2,7 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import wizardRoutes from './routes/wizards.js';
 import cors from 'cors';
-import { BACKEND_PORT, FRONTEND_IP } from './Constants/portConstants.js';
+import { BACKEND_PORT, FRONTEND_IP } from './constants/portConstants.js';
 
 const app = express();
 
