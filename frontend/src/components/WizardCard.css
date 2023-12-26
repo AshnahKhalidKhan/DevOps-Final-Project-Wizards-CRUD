@@ -1,0 +1,14 @@
+.wizard-card {
+    border: 1px solid #ddd;
+    padding: 10px;
+    margin: 10px;
+    border-radius: 5px;
+  }
+  
+  .wizard-card h3 {
+    margin: 0 0 10px 0;
+  }
+  
+  .wizard-card button {
+    margin-right: 5px;
+  }
