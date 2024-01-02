@@ -1,154 +1,96 @@
-import utils from '../utils/index.js'
-import { Wizard } from '../models/wizard.js';
-import multer from 'multer';
-import path from 'path';
-import fs from 'fs';
-
-const storage = multer.diskStorage({
-  //was confused about multer, asked Umair
-  destination: (req, file, cb) => {
-    cb(null, './frontend/public')
-  },
-  filename: (req, file, cb) => {
-    cb(null, Date.now() + path.extname(file.originalname))
-  }
-})
-
-const upload = multer({ storage: storage })
-
-const { getWizData, saveWizData } = utils;
+import {Wizard} from '../models/wizard.js';
 
 export const getWizards = async (req, res) => {
   try {
-    const wizards = await Wizard.find({email: req.user.email});
-    res.json(wizards);
-  } catch (err) {
-    res.status(500).json({ message: "Server error yoyoyo" });
+    const wizards = await Wizard.find({});
+    return res.status(200).json({
+      count: wizards.length,
+      data: wizards,
+    }
+    );
+
+    } catch (err) {
+    res.status(500).json({ message: "Server error cant get all" });
     console.log(err);
   }
 };
 
 export const getOneWizard = async (req, res) => {
-  const wizName = req.params.name;
-  const wizards = await Wizard.find({email: req.user.email});
-  const oneWizard = wizards.find((wizard) => wizard.name === wizName);
-
-  if (oneWizard) {
-    res.json(oneWizard);
-  } else {
-    res.status(404).json({ message: "Wizard not found" });
+  try {
+    const {id} = req.params;
+    const wiz = await Wizard.findById(id);
+    return res.status(200).json(wiz);
+  } catch (error) {
+    console.log(error);
+    return res.status(404).json({message:"Wizard not found, check id"})
   }
 };
 
 export const createWizard = async (req, res) => {
-  const newWiz = req.body;
-  const newImage = req.file.path
-
-  try
-  {
-    const searchTerm = 'public\\'
-    const index = newImage.indexOf(searchTerm)
-    const extractedPart = newImage.slice(index + searchTerm.length);
-    if(newWiz)
-    {
-      const newWiz = new Wizard({
-        name: newItem.name,
-        age: newItem.age,
-        imagePath: extractedPart,
-        email: req.user.email
-      })
-      await newWiz.save()
-      
-      return res.status(201).json({ message: 'Added Successfully' });
+  try {
+    if (
+      !req.body.name ||
+      !req.body.age ||
+      !req.body.imagePath
+    ) {
+      return res.status(400).send({
+        message: 'Send all required fields',
+      });      
     }
-    return res.status(400).json({ message: 'Bad Request' });
-  }
-  catch(err)
-  {
-    console.log(err)
-    return res.status(500).json({message: "Invalid Data"})
+    const newWiz = {
+      name: req.body.name,
+      age: req.body.age,
+      imagePath: req.body.imagePath,
+    };
+
+    const wiz = await Wizard.create(newWiz);
+
+    return res.status(201).send(wiz);
+  } catch (error) {
+    console.log(error.message);
+    res.status(500).send({ message: error.message });
   }
 };
 
 export const updateWizard = async (req, res) => {
-  const wizName = req.params.name;
-  const updatedName = req.body.name;
-  const updatedAge = req.body.age;
-  try
-  {
-    const existingItem = await Wizard.find({'name' : new RegExp(wizName, 'i')}, function(err, docs){
-      cb(docs);
-  });
-    if(existingItem) {
-      const updatedWiz = await starWars.findOneAndUpdate(
-        existingItem,
-        {
-          name: updatedName,
-          age: updatedAge
-        },
-        { new: true }
-      )
-      await updatedWiz.save()
-      res.status(200).json( { message:"Updated successfully" } )
+  try {
+    if (
+      !req.body.name ||
+      !req.body.age ||
+      !req.body.imagePath
+    ) {
+      return res.status(400).send({
+        message: 'Send all required fields',
+      });
     }
-    return res.status(404).json( { message: "Wizard not found" } )
+    const { id } = req.params;
+
+    const wizard = await Wizard.findByIdAndUpdate(id, req.body);
+
+    if (!wizard) {
+      return res.status(404).json({ message: 'Wizard not found' });
+    }
+
+    return res.status(200).send({ message: 'Wizard updated successfully' });
+    
+  } catch (error) {
+    console.log(error);
+    res.status(500).send({ message: error.message });
   }
-  catch(err)
-  {
-    res.status(500).json( { message: "Server Error" } )
-  }
-
-  // const { name } = req.params;
-  // const { name: newName, ge } = req.body;
-  // let wizards = getWizData();
-
-  // const wizardIndex = wizards.findIndex((wiz) => wiz.name === name);
-
-  // if (wizardIndex === -1) {
-  //   return res.status(404).json({ message: "Wizard not found" });
-  // }
-
-  // if (newName !== undefined) {
-  //   wizards[wizardIndex].name = newName;
-  // }
-  // if (Age !== undefined) {
-  //   wizards[wizardIndex].Age = Age;
-  // }
-
-  // saveWizData(wizards);
-  // res.status(200).json({ message: "Wizard updated successfully" });
 };
 
 export const deleteWizard = async (req, res) => {
-  try
-  {
-    const wizName = req.params.name;
-    const wiz = await Wizard.find({'name' : new RegExp(wizName, 'i')}, function(err, docs){
-      cb(docs);
-  });
-    if (!wiz) {
+  try {
+    const {id} = req.params;
+    const wizard = await Wizard.findByIdAndDelete(id);
+    if (!wizard) {
       return res.status(404).json({ message: 'Wizard not found' });
     }
-    if(wiz.imagePath)
-    {
-      fs.unlink(`/home/moatasim/Folio3/node_training/Tasks/node-backend/frontend/public/${wiz.imagePath}`, (err) => {
-        if(err)
-        {
-          console.log(err)
-        }
-        else
-        {
-          console.log("File deleted successfully")
-        }
-      })
-    }
 
-    await Wizard.findOneAndDelete(wizName)
-    
-    return res.status(204).json({ message: "Wizard record deleted" });
-  }
-  catch(err)
-  {
-    return res.status(500).json({ message: 'Server Error' });
+    return res.status(200).send({ message: 'Wizard deleted successfully' });
+
+  } catch (error) {
+    console.log(error);
+    res.status(500).send({ message: error.message });
   }
 };
