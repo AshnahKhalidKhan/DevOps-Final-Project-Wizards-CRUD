@@ -1,2 +1,1 @@
-CRUD API task on branch crud-api
-MongoDB task on branch mongo
+Run command npm run dev, open localhost:4000
