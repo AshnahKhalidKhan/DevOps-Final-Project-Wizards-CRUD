@@ -1,12 +1,12 @@
 import express from 'express';
-import { getWizards, createWizard, getOneWizard, deleteWizard, updateWizard } from '../controllers/wizardController.js';
+import { getWizards, createWizard, getOneWizard, deleteWizard, updateWizard, upload } from '../controllers/wizardController.js';
 
 
 const router = express.Router();
 
 router.get('/', getWizards);
 
-router.post('/', createWizard);
+router.post('/', upload.single('imagePath'), createWizard);
 
 router.get('/:id', getOneWizard);
 

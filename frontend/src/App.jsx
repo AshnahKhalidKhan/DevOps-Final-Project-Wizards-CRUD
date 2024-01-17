@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { Modal, Form, Input, Button } from "antd";
@@ -16,6 +17,16 @@ function App() {
   });
   const [editMode, setEditMode] = useState(false);
   const [currentWizardId, setCurrentWizardId] = useState(null);
+  const [selectedFile, setSelectedFile] = useState(null);
+
+  const handleFileChange = (e) => {
+    const form = new FormData()
+    form.append("name", "asdasd")
+    setSelectedFile(e.target.files[0]);
+    console.log(selectedFile)
+    setFormData({ ...formData, [e.target.name]: e.target.files[0][0] });
+    console.log('-->', e.target.files)
+  };
 
   useEffect(() => {
     fetchWizards();
@@ -23,8 +34,8 @@ function App() {
 
   const fetchWizards = async () => {
     try {
-      const response = await axios.get("http://localhost:5000/wizards");
-      setWizards(response.data.data);
+      const response = await axios.get("http://localhost:5000/wizards"); ////error in this line when reloading frontend
+      setWizards(response?.data?.data);
     } catch (error) {
       console.error("Error fetching wizards:", error);
       console.log("mein idhar phasa1");
@@ -33,7 +44,9 @@ function App() {
 
   const handleCreateWizard = async () => {
     try {
-      const response = await axios.post(
+      formData.imagePath = selectedFile;
+      console.log(formData)
+      const response = await axios.post(       /////////error in this line when 
         "http://localhost:5000/wizards",
         formData
       );
@@ -47,7 +60,7 @@ function App() {
       console.log("mein idhar phasa2");
     }
   };
-
+  
   const handleEditWizard = async () => {
     if (!currentWizardId) return;
     try {
@@ -176,12 +189,10 @@ function App() {
               onChange={handleFormChange}
             />
           </Form.Item>
-          <Form.Item label="Image URL">
-            <Input
-              name="imagePath"
-              value={formData.imagePath}
-              onChange={handleFormChange}
-            />
+          
+          <Form.Item label="Wizard Image" enctype="multipart/form-data">
+            
+            <Input name="imagePath" type="file" onChange={(e) => handleFileChange(e)} />
           </Form.Item>
         </Form>
       </Modal>

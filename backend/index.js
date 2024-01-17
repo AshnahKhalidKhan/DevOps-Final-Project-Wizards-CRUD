@@ -18,6 +18,8 @@ app.get("/", (req, res) => {app.use(bodyParser.json());
 });
 
 app.use('/wizards', wizardRoute)
+app.use('/uploads', express.static('uploads'));
+
 
 
 // connection string mongodb

@@ -1,4 +1,31 @@
 import {Wizard} from '../models/wizard.js';
+import multer from 'multer';
+import path from 'path';
+import { BACK_URL } from '../constants/constants.js';
+
+// export const storage = multer.diskStorage({        
+//   destination: (req, file, cb) => {
+//     cb(null, '/uploads')
+//   },
+//   filename: (req, file, cb) => {
+//     console.log("multer bhai ka storage log", file.originalname); 
+//     cb(null, Date.now() + path.extname(file.originalname))
+    
+//   }
+// });
+
+// export const upload = multer({ storage: storage })
+
+export const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, './uploads'); // Files will be saved in the 'uploads' directory
+  },
+  filename: (req, file, cb) => {
+    cb(null, Date.now() + path.extname(file.originalname)); // Construct the filename
+  }
+});
+
+export const upload = multer({ storage: storage });
 
 export const getWizards = async (req, res) => {
   try {
@@ -27,30 +54,31 @@ export const getOneWizard = async (req, res) => {
 };
 
 export const createWizard = async (req, res) => {
+  const newWiz = req.body;
+
+  if (!req.file) {
+    return res.status(400).json({ message: 'Image file is required' });
+  }
+
+  const wizImg = req.file.path;
+  
   try {
-    if (
-      !req.body.name ||
-      !req.body.age ||
-      !req.body.imagePath
-    ) {
-      return res.status(400).send({
-        message: 'Send all required fields',
-      });      
-    }
-    const newWiz = {
-      name: req.body.name,
-      age: req.body.age,
-      imagePath: req.body.imagePath,
-    };
+    // Modify the path as per your requirement
+    const imagePath = BACK_URL +  '/uploads/' + path.basename(wizImg);
 
-    const wiz = await Wizard.create(newWiz);
+    const wiz = new Wizard({
+      name: newWiz.name,
+      age: newWiz.age,
+      imagePath: imagePath
+    });
 
-    return res.status(201).send(wiz);
+    await wiz.save();
+    return res.status(201).json({ message: 'Added Successfully', wizard: wiz });
   } catch (error) {
-    console.log(error.message);
     res.status(500).send({ message: error.message });
   }
 };
+
 
 export const updateWizard = async (req, res) => {
   try {
