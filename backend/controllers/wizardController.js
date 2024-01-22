@@ -3,19 +3,6 @@ import multer from 'multer';
 import path from 'path';
 import { BACK_URL } from '../constants/constants.js';
 
-// export const storage = multer.diskStorage({        
-//   destination: (req, file, cb) => {
-//     cb(null, '/uploads')
-//   },
-//   filename: (req, file, cb) => {
-//     console.log("multer bhai ka storage log", file.originalname); 
-//     cb(null, Date.now() + path.extname(file.originalname))
-    
-//   }
-// });
-
-// export const upload = multer({ storage: storage })
-
 export const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     cb(null, './uploads'); // Files will be saved in the 'uploads' directory

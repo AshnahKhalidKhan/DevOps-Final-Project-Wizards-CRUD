@@ -34,7 +34,7 @@ function App() {
 
   const fetchWizards = async () => {
     try {
-      const response = await axios.get("http://localhost:5000/wizards"); ////error in this line when reloading frontend
+      const response = await axios.get("http://localhost:5000/wizards"); 
       setWizards(response?.data?.data);
     } catch (error) {
       console.error("Error fetching wizards:", error);
@@ -46,7 +46,7 @@ function App() {
     try {
       formData.imagePath = selectedFile;
       console.log(formData)
-      const response = await axios.post(       /////////error in this line when 
+      const response = await axios.post(      
         "http://localhost:5000/wizards",
         formData
       );
