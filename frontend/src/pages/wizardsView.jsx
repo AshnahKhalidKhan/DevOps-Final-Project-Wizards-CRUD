@@ -7,7 +7,9 @@ import "../App.css";
 
 export default function WizardsView() {
   const [wizards, setWizards] = useState([]);
+  // Create/Edit modal usestate variable = isCreateModalVisible, setIsCreateModalVisible
   const [isModalVisible, setIsModalVisible] = useState(false);
+  // View details modal:
   const [isViewModalVisible, setIsViewModalVisible] = useState(false);
   const [currentViewWizard, setCurrentViewWizard] = useState(null);
   const [formData, setFormData] = useState({
@@ -44,22 +46,31 @@ export default function WizardsView() {
 
   const handleCreateWizard = async () => {
     try {
-      formData.imagePath = selectedFile;
-      console.log(formData)
-      const response = await axios.post(      
-        "http://localhost:5000/wizards",
-        formData
-      );
+      const form = new FormData();
+      form.append("name", formData.name);
+      form.append("age", formData.age);
+      if (selectedFile) {
+        form.append("imagePath", selectedFile);
+      }
+  
+      const response = await axios.post("http://localhost:5000/wizards", form, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      });
+  
       if (response.status === 201) {
         fetchWizards();
         setIsModalVisible(false);
         setFormData({ name: "", age: "", imagePath: "" });
+        setSelectedFile(null);
       }
     } catch (error) {
       console.error("Error creating wizard:", error);
       console.log("mein idhar phasa2");
     }
   };
+  
   
   const handleEditWizard = async () => {
     if (!currentWizardId) return;
@@ -73,6 +84,7 @@ export default function WizardsView() {
         setEditMode(false);
         setCurrentWizardId(null);
         setFormData({ name: "", age: "", imagePath: "" });
+        setIsModalVisible(false);
         console.log("edit handler ke andar hun");
       }
     } catch (error) {
@@ -108,12 +120,14 @@ export default function WizardsView() {
 
   const handleFormChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
-    console.log("idhar bhi phas sakta hun");
+    console.log("idhar bhi phas sakta hun", formData);
   };
 
   const showViewModal = (wizard) => {
     setCurrentViewWizard(wizard);
+    console.log(wizard);
     setIsViewModalVisible(true);
+    console.log(isViewModalVisible);
   };
 
   const handleViewModalCancel = () => {
@@ -124,7 +138,7 @@ export default function WizardsView() {
   return (
     <div className="app-container">
       <h1>CRUD Wizards</h1>
-      <Button type="primary" onClick={showModal}>
+      <Button type="primary" onClick={showModal}> 
         Create New Wizard
       </Button>
       <WizardList
@@ -144,7 +158,7 @@ export default function WizardsView() {
       />
       <Modal
         title={editMode ? "Edit Wizard" : "Create Wizard"}
-        visible={isModalVisible}
+        open={isModalVisible}
         onCancel={handleCancel}
         footer={[
           <Button key="back" onClick={handleCancel}>
@@ -159,21 +173,7 @@ export default function WizardsView() {
           </Button>,
         ]}
       >
-        <Modal
-          title="Wizard Details"
-          visible={isViewModalVisible}
-          onCancel={handleViewModalCancel}
-          footer={null}
-        >
-          {currentViewWizard && (
-            <div>
-              <p>ID: {currentViewWizard._id}</p>
-              <p>Name: {currentViewWizard.name}</p>
-              <p>Age: {currentViewWizard.age}</p>
-              <p>Image URL: {currentViewWizard.imgUrl}</p>
-            </div>
-          )}
-        </Modal>
+        
         <Form>
           <Form.Item label="Name">
             <Input
@@ -190,12 +190,27 @@ export default function WizardsView() {
             />
           </Form.Item>
           
-          <Form.Item label="Wizard Image" enctype="multipart/form-data">
+          <Form.Item label="Wizard Image" encType="multipart/form-data">
             
-            <Input name="imagePath" type="file" onChange={(e) => handleFileChange(e) } value={formData.imagePath} />
+            <Input name="imagePath" type="file" onChange={(e) => handleFileChange(e) }  />
           </Form.Item>
         </Form>
       </Modal>
+      <Modal
+          title="Wizard Details"
+          open={isViewModalVisible}
+          onCancel={handleViewModalCancel}
+          footer={null}
+        >
+          {currentViewWizard && (
+            <div>
+              <p>ID: {currentViewWizard._id}</p>
+              <p>Name: {currentViewWizard.name}</p>
+              <p>Age: {currentViewWizard.age}</p>
+              <p>Image URL: {currentViewWizard.imagePath}</p>
+            </div>
+          )}
+        </Modal>
     </div>
   );
 }
