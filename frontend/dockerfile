@@ -1,13 +1,42 @@
 # Use the official Node.js image as a builder stage
+# This is the first stage of a multi-stage build process.
+# We're using the Node.js image based on Alpine Linux for its small size and the Node.js environment it provides.
 FROM node:20-alpine AS builder
+
+# Set the working directory inside the container
+# This is where the app's frontend code will reside.
 WORKDIR /app/frontend
+
+# Copy package.json and package-lock.json to the working directory
+# This step is done separately to take advantage of Docker's cache layering,
+# speeding up rebuilds when dependencies haven't changed.
 COPY package*.json ./
+
+# Install dependencies defined in package.json
+# npm install is run to install all the dependencies needed by the project.
 RUN npm install
+
+# Copy the rest of the frontend code to the working directory
+# This includes all source files, images, styles, and any other assets needed by the app.
 COPY . .
+
+# Build the React app
+# npm run build executes the build script defined in package.json, producing a production build of the app.
 RUN npm run build
 
 # Use nginx to serve the React app
+# This begins the second stage of the build, where the built app from the first stage is served using Nginx.
 FROM nginx:stable-alpine
+
+# Copy built assets from the builder stage to Nginx's serve directory
+# This transfers the production build of the React app into the Nginx container, making it ready to serve.
 COPY --from=builder /app/frontend/dist /usr/share/nginx/html
+
+# Expose port 80
+# This makes port 80 on the container accessible from the outside, which is the default port that Nginx listens on.
 EXPOSE 80
+
+# Start Nginx
+# The CMD instruction specifies the command that will be executed when the container starts.
+# Here, it starts Nginx with a configuration that keeps it running in the foreground.
 CMD ["nginx", "-g", "daemon off;"]
