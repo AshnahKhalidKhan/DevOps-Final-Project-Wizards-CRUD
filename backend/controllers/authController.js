@@ -1,39 +1,29 @@
-import { User } from "../models/user.js";
-import jwt from 'jsonwebtoken';
+import { authService } from '../services/authService.js';
 
 export const signup = async (req, res) => {
-  try {
-    const { username, password } = req.body;
-    const user = new User({ username, password });
-    await user.save();
-    res.json({ message: 'Signup successful' });
-  } catch (error) {
-    res.status(500).json({ error: 'Signup failed' });
-  }
+    try {
+        const { username, password } = req.body;
+        const result = await authService.signup(username, password);
+        res.json(result);
+    } catch (error) {
+        res.status(500).json({ error: 'Signup failed' });
+    }
 };
 
 export const login = async (req, res) => {
-  try {
-    const { username, password } = req.body;
-    console.log("I am the username", username); 
-    const user = await User.findOne({ username });
+    try {
+        const { username, password } = req.body;
+        const result = await authService.login(username, password);
+        res.json(result);
+    } catch (error) {
+        let status = 500;
+        let message = 'Login failed';
 
-    if (!user) {
-      return res.status(401).json({ error: 'User not found' });
+        if (error.message === 'User not found' || error.message === 'Invalid password') {
+            status = 401;
+            message = error.message;
+        }
+
+        res.status(status).json({ error: message });
     }
-
-    const isValidPassword = await user.comparePassword(password);
-
-    if (!isValidPassword) {
-      return res.status(401).json({ error: 'Invalid password' });
-    }
-
-    const token = jwt.sign({ userId: user._id }, 'folio-backend', {
-      expiresIn: '5h', 
-    });
-
-    res.json({ token });
-  } catch (error) {
-    res.status(500).json({ error: 'Login failed' });
-  }
 };
