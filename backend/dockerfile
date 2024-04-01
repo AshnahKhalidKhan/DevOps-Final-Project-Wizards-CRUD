@@ -1,0 +1,26 @@
+# Using the official Node.js 20 Alpine image as a parent image. Alpine is chosen for its small size and security.
+FROM node:20-alpine
+
+# Setting the working directory inside the container to /app/backend.
+# All the commands that follow in the Dockerfile will be executed relative to this directory.
+WORKDIR /app/backend
+
+# Copying both package.json and package-lock.json files into the working directory.
+# This is done before running npm install to leverage Docker's cache mechanism efficiently.
+COPY package*.json ./
+
+# Installing project dependencies defined in package.json.
+# This step is separated from copying the rest of the source code to cache the dependencies and only re-run npm install if these files change.
+RUN npm install
+
+# Copying the rest of the source code into the working directory.
+# This includes all files and directories in the build context, except what is defined in .dockerignore.
+COPY . .
+
+# Informing Docker that the container listens on port 5000 at runtime.
+# This does not actually publish the port. It functions as a type of documentation between the person who builds the image and the person who runs the container.
+EXPOSE 5000
+
+# Defining the command to run the application.
+# This uses npm start which should be defined in your package.json under the scripts section.
+CMD [ "npm", "start" ]
