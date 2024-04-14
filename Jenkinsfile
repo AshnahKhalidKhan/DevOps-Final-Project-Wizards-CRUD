@@ -70,16 +70,4 @@ pipeline {
         }
     }
 
-    post {
-    always {
-        script {
-            if (currentBuild.result != 'SUCCESS') {
-                echo 'Cleaning up due to non-successful result'
-            }
-            echo 'Running cleanup steps...'
-            sh 'docker-compose down' // Ensure this is correct and executable in the current context
-        }
-    }
-}
-
 }
