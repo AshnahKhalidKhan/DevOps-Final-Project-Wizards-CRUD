@@ -5,7 +5,7 @@ pipeline {
         BACKEND_IMAGE = "moatas19m/mongo-crud-backend:latest"
         FRONTEND_IMAGE = "moatas19m/mongo-crud-frontend:latest"
         // These credential IDs should be configured in your Jenkins credentials store
-        DOCKERHUB_CREDENTIALS = credentials('dockerhub')
+        DOCKERHUB_CREDENTIALS = credentials('dockerhubcred')
     }
 
     stages {
