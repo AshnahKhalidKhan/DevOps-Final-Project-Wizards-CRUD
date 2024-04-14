@@ -5,7 +5,7 @@ pipeline {
         BACKEND_IMAGE = "moatas19m/mongo-crud-backend:latest"
         FRONTEND_IMAGE = "moatas19m/mongo-crud-frontend:latest"
         // These credential IDs should be configured in your Jenkins credentials store
-        DOCKERHUB_CREDENTIALS = credentials('dockerhubcred')
+        // DOCKERHUB_CREDENTIALS = credentials('dockerhubcred')
     }
 
     stages {
@@ -18,12 +18,13 @@ pipeline {
         stage('Login to DockerHub') {
             steps {
                 script {
-                    // Login to DockerHub using stored credentials
-                    sh "echo ${env.DOCKERHUB_CREDENTIALS_PSW} | docker login -u ${env.DOCKERHUB_CREDENTIALS_USR} --password-stdin"
+                    withCredentials([usernamePassword(credentialsId: 'dockerhubcred', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
+                        sh 'echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin'
+                    }
                 }
             }
         }
-
+    
         stage('Build Backend') {
             steps {
                 dir('backend') {
