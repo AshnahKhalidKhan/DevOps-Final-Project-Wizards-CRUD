@@ -9,7 +9,7 @@ services:
       context: ./backend # Specifies the directory containing the Dockerfile as the build context for the backend service.
       dockerfile: Dockerfile # Points to the Dockerfile used for building the backend service.
     ports:
-      - "5000:5000" # Maps port 5000 of the container to port 5000 on the host, enabling access to the backend service.
+      - "4000:5000" # Maps port 5000 of the container to port 5000 on the host, enabling access to the backend service.
     environment:
       - NODE_ENV=production # Sets an environment variable inside the container to indicate production mode.
     image: mongo-crud-backend:latest # Names the image built from the Dockerfile for easier reference.
@@ -20,7 +20,7 @@ services:
       context: ./frontend # Specifies the directory containing the Dockerfile as the build context for the frontend service.
       dockerfile: Dockerfile # Points to the Dockerfile used for building the frontend service.
     ports:
-      - "80:80" # Maps port 80 of the container to port 80 on the host, enabling access to the frontend service.
+      - "3000:80" # Maps port 80 of the container to port 80 on the host, enabling access to the frontend service.
     environment:
       - NODE_ENV=production # Sets an environment variable inside the container to indicate production mode.
     image: mongo-crud-frontend:latest # Names the image built from the Dockerfile for easier reference.
