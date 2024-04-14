@@ -5,12 +5,12 @@ pipeline {
         stage('Build Wali Stage') {
             steps {
                 echo 'Building message print kar rahi hun....'
-                script {
-                    // Build Docker image
-                    // sh 'docker build -t $DOCKER_IMAGE .'
-                    // sh 'docker image build -t image_ka_naam:tag_ka_naam .'
-                    // docker image build -t image_ka_naam:tag_ka_naam .
-                }
+                // script {
+                //     // Build Docker image
+                //     // sh 'docker build -t $DOCKER_IMAGE .'
+                //     // sh 'docker image build -t image_ka_naam:tag_ka_naam .'
+                //     // docker image build -t image_ka_naam:tag_ka_naam .
+                // }
             }
         }
         
