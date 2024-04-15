@@ -50,7 +50,7 @@ pipeline {
         stage('Deploy to Kubernetes') {
             steps {
                 script {
-                    sh 'kubectl config use-context minikube'
+                    // sh 'kubectl config use-context minikube'
                     sh 'kubectl apply -f backend-deployment.yaml --validate=false'
                     sh 'kubectl apply -f frontend-deployment.yaml --validate=false'
                     sh 'kubectl apply -f mongo-crud-ingress.yaml --validate=false'
