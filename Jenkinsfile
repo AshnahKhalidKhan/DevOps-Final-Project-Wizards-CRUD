@@ -4,7 +4,7 @@ pipeline {
     environment {
         BACKEND_IMAGE = "moatas19m/mongo-crud-backend:latest"
         FRONTEND_IMAGE = "moatas19m/mongo-crud-frontend:latest"
-        // KUBECONFIG = '/home/moatasim/.kube/config' 
+        KUBECONFIG = '/home/moatasim/.kube/config' 
     }
 
     stages {
@@ -50,6 +50,7 @@ pipeline {
         stage('Deploy to Kubernetes') {
             steps {
                 script {
+                    sh 'kubectl config use-context minikube'
                     sh 'kubectl apply -f backend-deployment.yaml --validate=false'
                     sh 'kubectl apply -f frontend-deployment.yaml --validate=false'
                     sh 'kubectl apply -f mongo-crud-ingress.yaml --validate=false'
