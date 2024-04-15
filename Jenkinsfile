@@ -84,3 +84,16 @@ pipeline {
         }
     }
 }
+
+//SUMMARY REPORT:
+//I worked on setting up a Jenkins pipeline for continuous integration and deployment of a project involving a backend and a frontend service, utilizing Docker and Kubernetes. The initial focus was on creating a Jenkinsfile to automate the process, including stages for building Docker images and deploying to Kubernetes.
+
+//We encountered several issues during the setup, particularly with kubectl configuration. The kubectl commands were initially failing because they attempted to connect to an incorrect localhost port. This was due to an improper kubeconfig file configuration. After correctly setting the kubeconfig path in Jenkins and ensuring Jenkins could access this file, we resolved the connectivity issues.
+
+//Another challenge was ensuring the Jenkins service had the necessary permissions to access the Kubernetes configuration. We managed this by copying the required kubeconfig and certificate files to the Jenkins user's directory and adjusting the permissions accordingly.
+
+//I also configured the DNS for local testing by modifying the /etc/hosts file to point to the Minikube IP, allowing us to simulate DNS resolution for our service domains.
+
+//Finally, we adjusted the Jenkins pipeline to include explicit kubectl commands for deploying Kubernetes resources, such as services and ingress, ensuring the web application's components were accessible via configured domain names.
+
+//Throughout this process, we debugged issues related to Jenkins' integration with Docker and Kubernetes, refined the CI/CD pipeline steps, and ensured secure handling of credentials and configurations. This setup will facilitate automated building, testing, and deployment of the application components, streamlining development workflows and improving deployment reliability.
