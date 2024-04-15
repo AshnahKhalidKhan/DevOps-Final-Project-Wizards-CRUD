@@ -4,7 +4,7 @@ pipeline {
     environment {
         BACKEND_IMAGE = "moatas19m/mongo-crud-backend:latest"
         FRONTEND_IMAGE = "moatas19m/mongo-crud-frontend:latest"
-        KUBECONFIG = '/home/moatasim/.kube/config' 
+        // KUBECONFIG = '/home/moatasim/.kube/config' 
     }
 
     stages {
