@@ -2,8 +2,11 @@ pipeline {
     agent any
 
     environment {
+        // Define Docker images
         BACKEND_IMAGE = "moatas19m/mongo-crud-backend:latest"
         FRONTEND_IMAGE = "moatas19m/mongo-crud-frontend:latest"
+        // Path to the Kubernetes configuration
+        KUBECONFIG = '/home/moatasim/.kube/config'
         // These credential IDs should be configured in your Jenkins credentials store
         // DOCKERHUB_CREDENTIALS = credentials('dockerhubcred')
     }
@@ -24,7 +27,7 @@ pipeline {
                 }
             }
         }
-    
+
         stage('Build Backend') {
             steps {
                 dir('backend') {
@@ -47,11 +50,17 @@ pipeline {
             }
         }
 
-        stage('Docker Compose') {
+        stage('Deploy to Kubernetes') {
             steps {
                 script {
-                    // Run docker-compose to start services
-                    sh 'docker-compose up -d'
+                    // Apply Kubernetes manifests
+                    sh 'kubectl apply -f backend-deployment.yaml'
+                    sh 'kubectl apply -f backend-service.yaml'
+                    sh 'kubectl apply -f frontend-deployment.yaml'
+                    sh 'kubectl apply -f frontend-service.yaml'
+                    // Forward ports
+                    sh 'kubectl port-forward service/frontend 30000:80 &'
+                    sh 'kubectl port-forward service/backend 30001:5000 &'
                 }
             }
         }
@@ -63,12 +72,24 @@ pipeline {
             }
         }
 
-        stage('Deploy') {
+        stage('Cleanup') {
             steps {
-                // Add your deployment steps here
-                echo 'Deploy to production'
+                // Cleanup or other final steps
+                echo 'Pipeline completed'
             }
         }
     }
 
+    post {
+        always {
+            echo 'Cleaning up...'
+            sh 'docker-compose down'
+        }
+        success {
+            echo 'Build and deployment were successful!'
+        }
+        failure {
+            echo 'Build or deployment failed.'
+        }
+    }
 }
