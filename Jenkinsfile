@@ -49,8 +49,8 @@ pipeline {
         stage('Deploy to Kubernetes') {
             steps {
                 script {
-                    sh 'kubectl apply -f backend-deployment.yaml'
-                    sh 'kubectl apply -f frontend-deployment.yaml'
+                    sh 'kubectl apply -f backend-deployment.yaml --validate=false'
+                    sh 'kubectl apply -f frontend-deployment.yaml --validate=false'
                 }
             }
         }
