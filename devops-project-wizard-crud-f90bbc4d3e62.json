@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "devops-project-wizard-crud",
+  "private_key_id": "f90bbc4d3e624c443573dd4eff02b818ac04a334",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCktJzULt8TYxAu\nVsDjami/6v23PMVlv7J7CAa9C6YBGVJ2Y4wmWh8+Dd9j0dDybthwn9jFpRBziciX\nu1a8BsOpOpZwqAymnoulnmwObybGsGz4sWEPeodM+9umJZG3xh1iv6lLct1jzYRp\n2Xx4VaIwAGUTPs1WfXxjk6w2xE2Ggvc4byk5XF6ozLqMvhJI41enpDIN+R2iZjez\nP1jLz6LJR9VFgi4aL5CSIytj/xfMRwJg5xMyL76VGKXY1xZ+75TiVl3Z+N/tQUem\nhlGAJHLCkxS+NblD7y2AfAuZ5YyA2Ihj6KfN1YenYkjkrQaNHRDb0OH52l2ZWjB8\n/IoEry/PAgMBAAECggEAC8aUZkc20JGgmO+MhhxLHCcwHjQZTBdskO2xLaSLj3PA\n0l4QdlCzMyIvlCXU8cBWRGPpThg2TBk2kkKYObelSlztLJjKbsJr6ydsdyVTRf/C\nV48dbv6sdcCVouD39IYUy8UDbmi3LQK6MnP7BjXfjRCgj8OwHDyHv2BrftVO7AyL\nlus8Y/yyBLoi3eLRd0bqD5uhA/a2mB/WXUn2mNgeL3E6F35uqa4vuTmuUFhYLxH4\n6uByGIK+00dYfqLg5TnSvtdqzRw9KTgaiT8di74B3USaae6XwJwcwgLVPgaxIfHm\nobej3ykb5MAOn5WJWrUGf8EeaAG6hdbSn00pJD+4gQKBgQDdKGxYm5E3BRk+BBa8\nnPASERtjlA2SLNVio02DHqYyZpO0HFK0SfLudXzDxUTfk8OwlsMBCGXCaJt7kfkv\npdpLdiE7U+l8ZB2eMAxZyakXMkunzavy8KKBI2ONLStNjGFiiIaoZLDVQOeN5YQc\n2ikYOJO52jOYmKb7VhhtBJeGfwKBgQC+p2TCaO88Xe8ge5SIILfi7niDUfEWS/9S\nfM3poP5lQ5JYt/O9YWPDUZdwHrEDD0P8mWtDMgwyIWZGOrTXacjBR0l0+PpqcwqL\nAv7+l/9xrQkSMZCh31k69Jx9gOyk2RzyK7nO9b5LzXWFCVXLOJIWAsM5MiH59Qs2\nColDV8/OsQKBgQCfieKnBQp7o1zzROXWCGySy+5zJkGn+lmwv1dSSFDiOOdCXdA3\nqMTryqtHWs51btYTVJ615wXpeab4PHSDL+TK3RvZ/Y2Io3xOOiEewIAPcMPs+Eyb\ng4XnHM1a8YO0fJlgCFcDsSdzn0+rKC/m1GYix+Whg8wGv9BtrU0Pj+lzJwKBgFbH\nTn+Gz83EW8GHPnYvnkN2k/gB5iBl+xMKp5b9po1lEkm7gP/kQkp26t0nux5PZnyl\nQENXlmGC/lBdDE84YR5IWlEZurGVJ2latcIgYS7WudhEIzbquGyzRj+B3TSzdg9s\ng6iGBlXucN1bAGf9mdDW9RElln11YeL5LL0wTPAhAoGAc8WgaiZnTcQmlFfYm/iR\n3yKguHp0iYrOXAqz/1Q5jQv82LMbZmgu7ZDJ1Fd1rrC/jw7YzswWJjMjZyg/HpZc\nCiRL25S3+1z3gHoS4BbuVvoux5lNKc8IpyhkpjJdEzBJUxvh+hmSW9yUVxjqajoW\nWZXHaiiI0x2AnnFg4qsoCUk=\n-----END PRIVATE KEY-----\n",
+  "client_email": "serviceaccountkanaam@devops-project-wizard-crud.iam.gserviceaccount.com",
+  "client_id": "104754473345857065463",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/serviceaccountkanaam%40devops-project-wizard-crud.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}
