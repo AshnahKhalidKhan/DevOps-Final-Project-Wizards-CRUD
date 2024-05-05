@@ -6,7 +6,7 @@ pipeline {
         FRONTEND_IMAGE = "moatas19m/mongo-crud-frontend:latest"
         KUBECONFIG = '/var/lib/jenkins/.kube/config' // Ensure this points to GKE config
     }
-    //comment for webhook no.1
+    //comment for webhook no.1, 2
 
     stages {
         stage('Checkout') {
