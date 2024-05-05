@@ -4,9 +4,8 @@ pipeline {
     environment {
         BACKEND_IMAGE = "moatas19m/mongo-crud-backend:latest"
         FRONTEND_IMAGE = "moatas19m/mongo-crud-frontend:latest"
-        KUBECONFIG = '/var/lib/jenkins/.kube/config' // Ensure this points to GKE config
+        KUBECONFIG = '/var/lib/jenkins/.kube/config' // Ensure this points to your Kubernetes config file, possibly from GKE
     }
-    //comment for webhook no.1, 2
 
     stages {
         stage('Checkout') {
@@ -52,28 +51,26 @@ pipeline {
             }
         }
 
-        // stage('Run Tests') {
-        //     steps {
-        //         parallel {
-        //             stage('Backend Tests') {
-        //                 steps {
-        //                     dir('backend') {
-        //                         sh 'npm install'
-        //                         sh 'npm test'
-        //                     }
-        //                 }
-        //             }
-        //             stage('Frontend Tests') {
-        //                 steps {
-        //                     dir('frontend') {
-        //                         sh 'npm install'
-        //                         sh 'npm test'
-        //                     }
-        //                 }
-        //             }
-        //         }
-        //     }
-        // }
+        stage('Run Tests') {
+            parallel {
+                stage('Backend Tests') {
+                    steps {
+                        dir('backend') {
+                            sh 'npm install' // Ensure dependencies are installed for the tests
+                            sh 'npm test'    // Run backend tests
+                        }
+                    }
+                }
+                stage('Frontend Tests') {
+                    steps {
+                        dir('frontend') {
+                            sh 'npm install' // Ensure dependencies are installed for the tests
+                            sh 'npm test'    // Run frontend tests
+                        }
+                    }
+                }
+            }
+        }
     }
 
     post {
