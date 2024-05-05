@@ -13,21 +13,21 @@ pipeline {
     stages {
 
         // Ashnah adding stuff here
-        stage('Initialize Terraform') {
-            steps {
-                dir('terraform') {
-                    sh 'terraform init'
-                }
-            }
-        }
+        // stage('Initialize Terraform') {
+        //     steps {
+        //         dir('terraform') {
+        //             sh 'terraform init'
+        //         }
+        //     }
+        // }
 
-        stage('Apply Terraform') {
-            steps {
-                dir('terraform') {
-                    sh 'terraform apply -auto-approve'
-                }
-            }
-        }
+        // stage('Apply Terraform') {
+        //     steps {
+        //         dir('terraform') {
+        //             sh 'terraform apply -auto-approve'
+        //         }
+        //     }
+        // }
         ///
 
         stage('Checkout') {
@@ -40,7 +40,7 @@ pipeline {
         stage('Login to DockerHub') {
             steps {
                 script {
-                    withCredentials([usernamePassword(credentialsId: 'dockerhubcred', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
+                    withCredentials([usernamePassword(credentialsId: 'dockerhub_id', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
                         sh 'echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin'
                     }
                 }
