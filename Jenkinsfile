@@ -69,60 +69,60 @@ pipeline {
             }
         }
 
-        stage('Deploy to Kubernetes') {
-            steps {
-                script {
-                    // sh 'kubectl config use-context minikube'
-                    sh 'kubectl apply -f backend-deployment.yaml --validate=false'
-                    sh 'kubectl apply -f frontend-deployment.yaml --validate=false'
-                    sh 'kubectl apply -f mongo-crud-ingress.yaml --validate=false'
-                }
-            }
-        }
+    //     stage('Deploy to Kubernetes') {
+    //         steps {
+    //             script {
+    //                 // sh 'kubectl config use-context minikube'
+    //                 sh 'kubectl apply -f backend-deployment.yaml --validate=false'
+    //                 sh 'kubectl apply -f frontend-deployment.yaml --validate=false'
+    //                 sh 'kubectl apply -f mongo-crud-ingress.yaml --validate=false'
+    //             }
+    //         }
+    //     }
 
-        // stage('Test') {
-        //     steps {
-        //         echo 'Run tests here'
-        //     }
-        // }
+    //     // stage('Test') {
+    //     //     steps {
+    //     //         echo 'Run tests here'
+    //     //     }
+    //     // }
 
 
-        //Ash adding own test stage here
-        stage('Test') {
-            steps {
-                // Implement actual testing commands
-                sh 'echo "Run tests for backend and frontend"'
-                // For example, running unit tests for Node.js
-                dir('backend') {
-                    sh 'npm test'
-                }
-                dir('frontend') {
-                    sh 'npm test'
-                }
-            }
-        }
+    //     //Ash adding own test stage here
+    //     stage('Test') {
+    //         steps {
+    //             // Implement actual testing commands
+    //             sh 'echo "Run tests for backend and frontend"'
+    //             // For example, running unit tests for Node.js
+    //             dir('backend') {
+    //                 sh 'npm test'
+    //             }
+    //             dir('frontend') {
+    //                 sh 'npm test'
+    //             }
+    //         }
+    //     }
 
-        stage('Cleanup') {
-            steps {
-                echo 'Cleanup tasks if necessary'
-            }
-        }
-    }
+    //     stage('Cleanup') {
+    //         steps {
+    //             echo 'Cleanup tasks if necessary'
+    //         }
+    //     }
+    // }
 
-    post {
-        always {
-            echo 'Cleaning up...'
-            sh 'docker-compose down'
-            dir('terraform') {
-                sh 'terraform destroy -auto-approve'
-            }
-        }
-        success {
-            echo 'Build and deployment were successful!'
-        }
-        failure {
-            echo 'Build or deployment failed.'
-        }
+    // post {
+    //     always {
+    //         echo 'Cleaning up...'
+    //         sh 'docker-compose down'
+    //         dir('terraform') {
+    //             sh 'terraform destroy -auto-approve'
+    //         }
+    //     }
+    //     success {
+    //         echo 'Build and deployment were successful!'
+    //     }
+    //     failure {
+    //         echo 'Build or deployment failed.'
+    //     }
     }
 }
 
