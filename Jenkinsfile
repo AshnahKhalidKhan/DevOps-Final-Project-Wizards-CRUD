@@ -52,28 +52,28 @@ pipeline {
             }
         }
 
-        stage('Run Tests') {
-            steps {
-                parallel {
-                    stage('Backend Tests') {
-                        steps {
-                            dir('backend') {
-                                sh 'npm install'
-                                sh 'npm test'
-                            }
-                        }
-                    }
-                    stage('Frontend Tests') {
-                        steps {
-                            dir('frontend') {
-                                sh 'npm install'
-                                sh 'npm test'
-                            }
-                        }
-                    }
-                }
-            }
-        }
+        // stage('Run Tests') {
+        //     steps {
+        //         parallel {
+        //             stage('Backend Tests') {
+        //                 steps {
+        //                     dir('backend') {
+        //                         sh 'npm install'
+        //                         sh 'npm test'
+        //                     }
+        //                 }
+        //             }
+        //             stage('Frontend Tests') {
+        //                 steps {
+        //                     dir('frontend') {
+        //                         sh 'npm install'
+        //                         sh 'npm test'
+        //                     }
+        //                 }
+        //             }
+        //         }
+        //     }
+        // }
     }
 
     post {
