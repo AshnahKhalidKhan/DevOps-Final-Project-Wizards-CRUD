@@ -1,9 +1,6 @@
 pipeline {
     agent any
 
-    //
-
-
     environment {
         BACKEND_IMAGE = "moatas19m/mongo-crud-backend:latest"
         FRONTEND_IMAGE = "moatas19m/mongo-crud-frontend:latest"
@@ -33,7 +30,7 @@ pipeline {
         stage('Checkout') {
             steps {
                 checkout scm
-                echo 'Webhook is working from static ngrok domain!'
+                echo 'Checking out source code.'
             }
         }
         
