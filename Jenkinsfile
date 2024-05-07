@@ -9,7 +9,7 @@ pipeline {
         BACKEND_IMAGE = "ashnahkhalidkhan00210/mongo-crud-backend:latest"
         FRONTEND_IMAGE = "ashnahkhalidkhan00210/mongo-crud-frontend:latest"
         // KUBECONFIG = '/var/lib/jenkins/.kube/config'
-        // KUBECONFIG = 'C:\\Users\\namra\\.minikube\\config' 
+        KUBECONFIG = 'C:\\Users\\namra\\.minikube\\config' 
         CLOUDSDK_CORE_PROJECT='devops-project-wizard-crud'
         CLIENT_EMAIL='service-account-ka-naam@devops-project-wizard-crud.iam.gserviceaccount.com'
         GCLOUD_CREDS=credentials('googlecloudplatform_id')
