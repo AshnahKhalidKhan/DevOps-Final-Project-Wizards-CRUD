@@ -2,8 +2,10 @@ pipeline {
     agent any
 
     environment {
-        BACKEND_IMAGE = "moatas19m/mongo-crud-backend:latest"
-        FRONTEND_IMAGE = "moatas19m/mongo-crud-frontend:latest"
+        // BACKEND_IMAGE = "moatas19m/mongo-crud-backend:latest"
+        // FRONTEND_IMAGE = "moatas19m/mongo-crud-frontend:latest"
+        BACKEND_IMAGE = "ashnahkhalidkhan00210/mongo-crud-backend:latest"
+        FRONTEND_IMAGE = "ashnahkhalidkhan00210/mongo-crud-frontend:latest"
         KUBECONFIG = '/var/lib/jenkins/.kube/config' 
     }
 
