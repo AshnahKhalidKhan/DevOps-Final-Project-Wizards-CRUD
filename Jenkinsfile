@@ -8,8 +8,8 @@ pipeline {
         // FRONTEND_IMAGE = "moatas19m/mongo-crud-frontend:latest"
         BACKEND_IMAGE = "ashnahkhalidkhan00210/mongo-crud-backend:latest"
         FRONTEND_IMAGE = "ashnahkhalidkhan00210/mongo-crud-frontend:latest"
-        // KUBECONFIG = '/var/lib/jenkins/.kube/config'
-        KUBECONFIG = 'C:\\Users\\namra\\.minikube\\config' 
+        KUBECONFIG = '/var/lib/jenkins/.kube/config'
+        // KUBECONFIG = 'C:\\Users\\namra\\.minikube\\config' 
         CLOUDSDK_CORE_PROJECT='devops-project-wizard-crud'
         CLIENT_EMAIL='service-account-ka-naam@devops-project-wizard-crud.iam.gserviceaccount.com'
         GCLOUD_CREDS=credentials('googlecloudplatform_id')
@@ -83,11 +83,6 @@ pipeline {
                 sh 'gcloud --version'
                 sh 'gcloud auth activate-service-account --key-file="$GCLOUD_CREDS"'
                 sh 'gcloud compute zones list'
-                // sh '''
-                //     gcloud version
-                //     gcloud auth activate-service-account --key-file="$GCLOUD_CREDS"
-                //     gcloud compute zones list
-                // '''
             }
         }
 
