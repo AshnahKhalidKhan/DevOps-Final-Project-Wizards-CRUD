@@ -87,16 +87,19 @@ pipeline {
             }
         }
 
-    //     stage('Deploy to Kubernetes') {
-    //         steps {
-    //             script {
-    //                 // sh 'kubectl config use-context minikube'
-    //                 sh 'kubectl apply -f backend-deployment.yaml --validate=false'
-    //                 sh 'kubectl apply -f frontend-deployment.yaml --validate=false'
-    //                 sh 'kubectl apply -f mongo-crud-ingress.yaml --validate=false'
-    //             }
-    //         }
-    //     }
+        stage('Deploy to Kubernetes') {
+            steps {
+                script {
+                    // sh 'kubectl config use-context minikube'
+                    sh 'kubectl apply -f kubernetes/backend/backend-deployment.yaml --validate=false'
+                    sh 'kubectl apply -f kubernetes/backend/backend-service.yaml --validate=false'
+                    sh 'kubectl apply -f kubernetes/frontend/frontend-deployment.yaml --validate=false'
+                    sh 'kubectl apply -f kubernetes/frontend/frontend-service.yaml --validate=false'
+                    sh 'kubectl apply -f kubernetes/mongo-crud-ingress.yaml --validate=false'
+                    sh 'kubectl apply -f kubernetes/mongo-crud-load-balancer.yaml --validate=false'
+                }
+            }
+        }
 
     //     // stage('Test') {
     //     //     steps {
