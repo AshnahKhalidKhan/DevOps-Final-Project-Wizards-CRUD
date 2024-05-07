@@ -14,10 +14,10 @@ pipeline {
         CLOUDSDK_CORE_PROJECT='devops-project-wizard-crud'
         CLIENT_EMAIL='service-account-ka-naam@devops-project-wizard-crud.iam.gserviceaccount.com'
         GCLOUD_CREDS=credentials('googlecloudplatform_id')
-        PROJECT_ID = '<<Your GCP Project ID>>'
-        CLUSTER_NAME = '<<Your GKE Cluster Name>>'
-        LOCATION = '<<Your GKE Cluster Location>>'
-        CREDENTIALS_ID = 'multi-k8s'
+        PROJECT_ID = 'devops-project-wizard-crud'
+        CLUSTER_NAME = 'devops-project-cluster'
+        LOCATION = 'asia-southeast2'
+        // CREDENTIALS_ID = 'multi-k8s'
     }
 
     stages {
@@ -84,6 +84,30 @@ pipeline {
                 sh 'gcloud --version'
                 sh 'gcloud auth activate-service-account --key-file="$GCLOUD_CREDS"'
                 sh 'gcloud compute zones list'
+            }
+        }
+
+        stage ('Deploy to GKE cluster') {
+            steps {
+                sh 'gcloud config set project $PROJECT_ID'
+                sh 'gcloud compute project-info add-metadata \ --metadata google-compute-default-region=asia-southeast2,google-compute-default-zone=asia-southeast2-a'
+                // Create an Autopilot cluster
+                sh '''
+                    gcloud container clusters create-auto $CLUSTER_NAME \
+                    --location=$LOCATION \
+                    --project=$PROJECT_ID
+                '''
+                // Connect to the cluster
+                sh '''
+                    gcloud container clusters get-credentials devops-project-cluster \
+                    --location=asia-southeast2-a \
+                    --project=devops-project-wizard-crud
+                '''
+                // Verify the cluster mode is "autopilot: enabled: true"
+                sh '''
+                    gcloud container clusters describe devops-project-cluster \
+                    --location=asia-southeast2
+                '''
             }
         }
 
