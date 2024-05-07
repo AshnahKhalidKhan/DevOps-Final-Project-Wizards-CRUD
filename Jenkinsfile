@@ -80,11 +80,14 @@ pipeline {
 
         stage('Testing Google Cloud Platform') {
             steps {
-                sh '''
-                    gcloud version
-                    gcloud auth activate-service-account --key-file="$GCLOUD_CREDS"
-                    gcloud compute zones list
-                '''
+                sh 'gcloud --version'
+                sh 'gcloud auth activate-service-account --key-file="$GCLOUD_CREDS"'
+                sh 'gcloud compute zones list'
+                // sh '''
+                //     gcloud version
+                //     gcloud auth activate-service-account --key-file="$GCLOUD_CREDS"
+                //     gcloud compute zones list
+                // '''
             }
         }
 
