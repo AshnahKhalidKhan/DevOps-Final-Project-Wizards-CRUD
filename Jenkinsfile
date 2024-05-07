@@ -8,7 +8,8 @@ pipeline {
         // FRONTEND_IMAGE = "moatas19m/mongo-crud-frontend:latest"
         BACKEND_IMAGE = "ashnahkhalidkhan00210/mongo-crud-backend:latest"
         FRONTEND_IMAGE = "ashnahkhalidkhan00210/mongo-crud-frontend:latest"
-        KUBECONFIG = '/var/lib/jenkins/.kube/config' 
+        // KUBECONFIG = '/var/lib/jenkins/.kube/config'
+        // KUBECONFIG = 'C:\\Users\\namra\\.minikube\\config' 
         CLOUDSDK_CORE_PROJECT='devops-project-wizard-crud'
         CLIENT_EMAIL='service-account-ka-naam@devops-project-wizard-crud.iam.gserviceaccount.com'
         GCLOUD_CREDS=credentials('googlecloudplatform_id')
@@ -90,7 +91,7 @@ pipeline {
         stage('Deploy to Kubernetes') {
             steps {
                 script {
-                    // sh 'kubectl config use-context minikube'
+                    sh 'kubectl config use-context minikube'
                     sh 'kubectl apply -f kubernetes/backend/backend-deployment.yaml --validate=false'
                     sh 'kubectl apply -f kubernetes/backend/backend-service.yaml --validate=false'
                     sh 'kubectl apply -f kubernetes/frontend/frontend-deployment.yaml --validate=false'
