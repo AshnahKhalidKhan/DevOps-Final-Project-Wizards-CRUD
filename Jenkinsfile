@@ -92,8 +92,8 @@ pipeline {
             steps {
                 script {
                     sh 'minikube start'
-                    sh 'kubectl config get-contexts'
-                    sh 'kubectl config use-context minikube'
+                    // sh 'kubectl config get-contexts'
+                    // sh 'kubectl config use-context minikube'
                     // sh 'kubectl apply -f kubernetes/backend/backend-deployment.yaml --validate=false'
                     // sh 'kubectl apply -f kubernetes/backend/backend-service.yaml --validate=false'
                     // sh 'kubectl apply -f kubernetes/frontend/frontend-deployment.yaml --validate=false'
