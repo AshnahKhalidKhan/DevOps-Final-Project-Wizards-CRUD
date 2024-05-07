@@ -18,6 +18,7 @@ pipeline {
         CLUSTER_NAME = 'devops-project-cluster'
         LOCATION = 'asia-southeast2'
         // CREDENTIALS_ID = 'multi-k8s'
+        
     }
 
     stages {
@@ -90,6 +91,7 @@ pipeline {
         stage ('Deploy to GKE cluster') {
             steps {
                 sh 'gcloud config set project $PROJECT_ID'
+                // Set default region and location and what not uffffffffff
                 sh 'gcloud compute project-info add-metadata \ --metadata google-compute-default-region=asia-southeast2,google-compute-default-zone=asia-southeast2-a'
                 // Create an Autopilot cluster
                 sh '''
@@ -99,14 +101,14 @@ pipeline {
                 '''
                 // Connect to the cluster
                 sh '''
-                    gcloud container clusters get-credentials devops-project-cluster \
-                    --location=asia-southeast2-a \
-                    --project=devops-project-wizard-crud
+                    gcloud container clusters get-credentials $CLUSTER_NAME \
+                    --location=$LOCATION \
+                    --project=$PROJECT_ID
                 '''
                 // Verify the cluster mode is "autopilot: enabled: true"
                 sh '''
-                    gcloud container clusters describe devops-project-cluster \
-                    --location=asia-southeast2
+                    gcloud container clusters describe $CLUSTER_NAME \
+                    --location=$LOCATION
                 '''
             }
         }
@@ -123,6 +125,14 @@ pipeline {
                     // sh 'kubectl apply -f kubernetes/frontend/frontend-service.yaml --validate=false'
                     // sh 'kubectl apply -f kubernetes/mongo-crud-ingress.yaml --validate=false'
                     // sh 'kubectl apply -f kubernetes/mongo-crud-load-balancer.yaml --validate=false'
+                    
+
+                    // sh 'kubectl apply -f kubernetes/backend/backend-deployment.yaml'
+                    // sh 'kubectl apply -f kubernetes/backend/backend-service.yaml'
+                    // sh 'kubectl apply -f kubernetes/frontend/frontend-deployment.yaml'
+                    // sh 'kubectl apply -f kubernetes/frontend/frontend-service.yaml'
+                    // sh 'kubectl apply -f kubernetes/mongo-crud-ingress.yaml'
+                    // sh 'kubectl apply -f kubernetes/mongo-crud-load-balancer.yaml'
                 }
             }
         }

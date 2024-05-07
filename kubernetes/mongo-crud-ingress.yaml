@@ -6,7 +6,7 @@ metadata:
     # nginx.ingress.kubernetes.io/use-regex: "true"
     # ----------------------------------------------------
     # Use the GKE ingress controller
-    kubernetes.io/ingress.class: "gce"
+    spec.ingressClassName: "gce"
     # SSL Redirect is not configured here, add if you need HTTPS
     nginx.ingress.kubernetes.io/use-regex: "true"
     # Enabling Cloud CDN or other specific Google features if necessary
