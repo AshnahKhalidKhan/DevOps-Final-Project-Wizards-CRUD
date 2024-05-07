@@ -7,6 +7,9 @@ pipeline {
         BACKEND_IMAGE = "ashnahkhalidkhan00210/mongo-crud-backend:latest"
         FRONTEND_IMAGE = "ashnahkhalidkhan00210/mongo-crud-frontend:latest"
         KUBECONFIG = '/var/lib/jenkins/.kube/config' 
+        CLOUDSDK_CORE_PROJECT='devops-project-wizard-crud'
+        CLIENT_EMAIL='service-account-ka-naam@devops-project-wizard-crud.iam.gserviceaccount.com'
+        GCLOUD_CREDS=credentials('googlecloudplatform_id')
     }
 
     stages {
@@ -68,6 +71,16 @@ pipeline {
             }
         }
 
+        stage('Testing Google Cloud Platform') {
+            steps {
+                sh '''
+                    gcloud version
+                    gcloud auth activate-service-account --key-file="$GCLOUD_CREDS"
+                    gcloud compute zones list
+                '''
+            }
+        }
+
     //     stage('Deploy to Kubernetes') {
     //         steps {
     //             script {
@@ -106,22 +119,23 @@ pipeline {
     //             echo 'Cleanup tasks if necessary'
     //         }
     //     }
-    // }
+    }
 
-    // post {
-    //     always {
-    //         echo 'Cleaning up...'
-    //         sh 'docker-compose down'
-    //         dir('terraform') {
-    //             sh 'terraform destroy -auto-approve'
-    //         }
-    //     }
-    //     success {
-    //         echo 'Build and deployment were successful!'
-    //     }
-    //     failure {
-    //         echo 'Build or deployment failed.'
-    //     }
+    post {
+        always {
+            sh 'gcloud auth revoke $CLIENT_EMAIL'
+            // echo 'Cleaning up...'
+            // sh 'docker-compose down'
+            // dir('terraform') {
+            //     sh 'terraform destroy -auto-approve'
+            // }
+        }
+        // success {
+        //     echo 'Build and deployment were successful!'
+        // }
+        // failure {
+        //     echo 'Build or deployment failed.'
+        // }
     }
 }
 
