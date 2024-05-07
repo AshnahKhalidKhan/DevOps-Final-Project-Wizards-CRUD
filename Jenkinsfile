@@ -1,6 +1,8 @@
 pipeline {
     agent any
 
+    // NOTE-TO-SELF: Turn Docker Desktop on before building Jenkinsfole cause error ayay ga
+
     environment {
         // BACKEND_IMAGE = "moatas19m/mongo-crud-backend:latest"
         // FRONTEND_IMAGE = "moatas19m/mongo-crud-frontend:latest"
@@ -10,6 +12,10 @@ pipeline {
         CLOUDSDK_CORE_PROJECT='devops-project-wizard-crud'
         CLIENT_EMAIL='service-account-ka-naam@devops-project-wizard-crud.iam.gserviceaccount.com'
         GCLOUD_CREDS=credentials('googlecloudplatform_id')
+        PROJECT_ID = '<<Your GCP Project ID>>'
+        CLUSTER_NAME = '<<Your GKE Cluster Name>>'
+        LOCATION = '<<Your GKE Cluster Location>>'
+        CREDENTIALS_ID = 'multi-k8s'
     }
 
     stages {

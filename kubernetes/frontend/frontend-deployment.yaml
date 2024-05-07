@@ -14,7 +14,8 @@ spec:
     spec:
       containers:
       - name: frontend
-        image: moatas19m/mongo-crud-frontend:latest
+        # image: moatas19m/mongo-crud-frontend:latest
+        image: ashnahkhalidkhan00210/mongo-crud-frontend:latest
         ports:
         - containerPort: 80
         env:

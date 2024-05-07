@@ -14,7 +14,8 @@ spec:
     spec:
       containers:
       - name: backend
-        image: moatas19m/mongo-crud-backend:latest
+        # image: moatas19m/mongo-crud-backend:latest
+        image: ashnahkhalidkhan00210/mongo-crud-backend:latest
         ports:
         - containerPort: 5000
         env:

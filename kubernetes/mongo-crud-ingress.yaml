@@ -3,7 +3,14 @@ kind: Ingress
 metadata:
   name: mongo-crud-ingress
   annotations:
+    # nginx.ingress.kubernetes.io/use-regex: "true"
+    # ----------------------------------------------------
+    # Use the GKE ingress controller
+    kubernetes.io/ingress.class: "gce"
+    # SSL Redirect is not configured here, add if you need HTTPS
     nginx.ingress.kubernetes.io/use-regex: "true"
+    # Enabling Cloud CDN or other specific Google features if necessary
+    # networking.gke.io/managed-certificates: "your-certificate-name" (if using managed SSL)
 spec:
   rules:
   - host: frontend.moatasim.com
