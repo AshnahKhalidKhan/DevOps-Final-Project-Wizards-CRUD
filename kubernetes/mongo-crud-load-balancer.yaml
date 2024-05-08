@@ -5,7 +5,7 @@ metadata:
 spec:
   type: LoadBalancer
   ports:
-  - port: 5000 # 4000
-    targetPort: 5000
+  - port: 4000  # Externally exposed port
+    targetPort: 5000  # Container's listening port
   selector:
     app: backend
