@@ -58,27 +58,35 @@ pipeline {
             }
         }
 
-        stage('Build Backend') {
+        stage('Building Images Through Docker Compose') {
             steps {
-                dir('backend') {
-                    script {
-                        sh "docker build -t ${env.BACKEND_IMAGE} ."
-                        sh "docker push ${env.BACKEND_IMAGE}"
-                    }
+                script {
+                    sh 'docker-compose up -d --build'
                 }
             }
         }
 
-        stage('Build Frontend') {
-            steps {
-                dir('frontend') {
-                    script {
-                        sh "docker build -t ${env.FRONTEND_IMAGE} ."
-                        sh "docker push ${env.FRONTEND_IMAGE}"
-                    }
-                }
-            }
-        }
+        // stage('Build Backend') {
+        //     steps {
+        //         dir('backend') {
+        //             script {
+        //                 sh "docker build -t ${env.BACKEND_IMAGE} ."
+        //                 sh "docker push ${env.BACKEND_IMAGE}"
+        //             }
+        //         }
+        //     }
+        // }
+
+        // stage('Build Frontend') {
+        //     steps {
+        //         dir('frontend') {
+        //             script {
+        //                 sh "docker build -t ${env.FRONTEND_IMAGE} ."
+        //                 sh "docker push ${env.FRONTEND_IMAGE}"
+        //             }
+        //         }
+        //     }
+        // }
 
         stage('Testing Google Cloud Platform') {
             steps {
