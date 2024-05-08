@@ -13,8 +13,9 @@ metadata:
     # networking.gke.io/managed-certificates: "your-certificate-name" (if using managed SSL)
 spec:
   rules:
-  - host: frontend.moatasim.com
-    http:
+  # - host: frontend.moatasim.com
+  #   http:
+  - http:
       paths:
       - pathType: Prefix
         path: "/"
@@ -23,8 +24,9 @@ spec:
             name: frontend
             port:
               number: 3000
-  - host: backend.moatasim.com
-    http:
+  # - host: backend.moatasim.com
+  #   http:
+  - http:
       paths:
       - pathType: Prefix
         path: "/"
