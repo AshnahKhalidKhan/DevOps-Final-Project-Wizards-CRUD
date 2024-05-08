@@ -123,8 +123,8 @@ pipeline {
                     sh 'gcloud config set project $PROJECT_ID'
 
                     // Check if the cluster already exists
-                    sh (script: "gcloud container clusters describe $CLUSTER_NAME --region $LOCATION --project $PROJECT_ID", returnStatus: true) == 0
-                    if (currentBuild.result == 'FAILURE') {
+                    def clusterExists = sh(script: "gcloud container clusters describe $CLUSTER_NAME --region $LOCATION --project $PROJECT_ID", returnStatus: true) == 0
+                    if (!clusterExists) {
                         echo 'Cluster does not exist. Creating...'
                         sh '''
                             gcloud container clusters create-auto $CLUSTER_NAME \
