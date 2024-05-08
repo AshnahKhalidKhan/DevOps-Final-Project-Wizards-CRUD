@@ -82,9 +82,9 @@ pipeline {
 
         stage('Testing Google Cloud Platform') {
             steps {
-                sh 'gcloud --version'
+                // sh 'gcloud --version'
                 sh 'gcloud auth activate-service-account --key-file="$GCLOUD_CREDS"'
-                sh 'gcloud compute zones list'
+                // sh 'gcloud compute zones list'
             }
         }
 
@@ -143,7 +143,7 @@ pipeline {
                     '''
 
                     sh 'gcloud components install gke-gcloud-auth-plugin'
-                    sh 'gcloud components list | grep gke-gcloud-auth-plugin || gcloud components install gke-gcloud-auth-plugin'
+                    // sh 'gcloud components list | grep gke-gcloud-auth-plugin || gcloud components install gke-gcloud-auth-plugin'
                 }
             }
         }
