@@ -40,6 +40,11 @@ pipeline {
         //     }
         // }
         ///
+        stage('Webhook Test') {
+            steps {
+                echo 'Checking webhook...'
+            }
+        }
 
         stage('Checkout') {
             steps {
