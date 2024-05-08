@@ -141,6 +141,8 @@ pipeline {
                         --region=$LOCATION \
                         --project=$PROJECT_ID
                     '''
+
+                    sh 'gcloud components install gke-gcloud-auth-plugin'
                 }
             }
         }
@@ -166,6 +168,7 @@ pipeline {
                     // sh 'kubectl apply -f kubernetes/mongo-crud-ingress.yaml'
                     // sh 'kubectl apply -f kubernetes/mongo-crud-load-balancer.yaml'
 
+                    
                     sh 'kubectl apply -f kubernetes/backend/'
                     sh 'kubectl apply -f kubernetes/frontend/'
                     sh 'kubectl apply -f kubernetes/'
