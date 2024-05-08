@@ -23,7 +23,8 @@ spec:
           value: "production"
         resources:
           requests:
-            cpu: "250m"  # Reduced from 500m
+            cpu: 4
+            # cpu: "250m"  # Reduced from 500m
             memory: "1Gi"
           # limits:
           #   cpu: "250m"  # Reduced from 500m
