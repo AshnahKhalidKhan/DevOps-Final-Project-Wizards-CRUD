@@ -116,10 +116,10 @@ pipeline {
             }
         }
 
-        stage('Deploy to Kubernetes') {
+        stage('Apply k8s manifests') {
             steps {
                 script {
-                    sh 'minikube start'
+                    // sh 'minikube start'
                     // sh 'kubectl config get-contexts'
                     // sh 'kubectl config use-context minikube'
                     // sh 'kubectl apply -f kubernetes/backend/backend-deployment.yaml --validate=false'
@@ -136,6 +136,10 @@ pipeline {
                     // sh 'kubectl apply -f kubernetes/frontend/frontend-service.yaml'
                     // sh 'kubectl apply -f kubernetes/mongo-crud-ingress.yaml'
                     // sh 'kubectl apply -f kubernetes/mongo-crud-load-balancer.yaml'
+
+                    sh 'kubectl apply -f kubernetes/backend/'
+                    sh 'kubectl apply -f kubernetes/frontend/'
+                    sh 'kubectl apply -f kubernetes/'
                 }
             }
         }
