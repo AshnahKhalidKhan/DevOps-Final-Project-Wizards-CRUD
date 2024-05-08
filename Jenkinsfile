@@ -88,31 +88,60 @@ pipeline {
             }
         }
 
-        stage ('Deploy to GKE cluster') {
+        // stage ('Deploy to GKE cluster') {
+        //     steps {
+        //         sh 'gcloud config set project $PROJECT_ID'
+        //         // // Set default region and location and what not uffffffffff
+        //         // sh '''
+        //         //     gcloud compute project-info add-metadata \ 
+        //         //     --metadata google-compute-default-region=asia-southeast2,google-compute-default-zone=asia-southeast2-a
+        //         // '''
+        //         // Create an Autopilot cluster
+        //         sh '''
+        //             gcloud container clusters create-auto $CLUSTER_NAME \
+        //             --location=$LOCATION \
+        //             --project=$PROJECT_ID
+        //         '''
+        //         // Connect to the cluster
+        //         sh '''
+        //             gcloud container clusters get-credentials $CLUSTER_NAME \
+        //             --location=$LOCATION \
+        //             --project=$PROJECT_ID
+        //         '''
+        //         // Verify the cluster mode is "autopilot: enabled: true"
+        //         sh '''
+        //             gcloud container clusters describe $CLUSTER_NAME \
+        //             --location=$LOCATION
+        //         '''
+        //     }
+        // }
+
+        stage('Setup GKE Cluster') {
             steps {
-                sh 'gcloud config set project $PROJECT_ID'
-                // // Set default region and location and what not uffffffffff
-                // sh '''
-                //     gcloud compute project-info add-metadata \ 
-                //     --metadata google-compute-default-region=asia-southeast2,google-compute-default-zone=asia-southeast2-a
-                // '''
-                // Create an Autopilot cluster
-                sh '''
-                    gcloud container clusters create-auto $CLUSTER_NAME \
-                    --location=$LOCATION \
-                    --project=$PROJECT_ID
-                '''
-                // Connect to the cluster
-                sh '''
-                    gcloud container clusters get-credentials $CLUSTER_NAME \
-                    --location=$LOCATION \
-                    --project=$PROJECT_ID
-                '''
-                // Verify the cluster mode is "autopilot: enabled: true"
-                sh '''
-                    gcloud container clusters describe $CLUSTER_NAME \
-                    --location=$LOCATION
-                '''
+                script {
+                    // Set the project ID
+                    sh 'gcloud config set project $PROJECT_ID'
+
+                    // Check if the cluster already exists
+                    sh (script: "gcloud container clusters describe $CLUSTER_NAME --region $LOCATION --project $PROJECT_ID", returnStatus: true) == 0
+                    if (currentBuild.result == 'FAILURE') {
+                        echo 'Cluster does not exist. Creating...'
+                        sh '''
+                            gcloud container clusters create-auto $CLUSTER_NAME \
+                            --region=$LOCATION \
+                            --project=$PROJECT_ID
+                        '''
+                    } else {
+                        echo 'Cluster already exists. Skipping creation...'
+                    }
+
+                    // Connect to the cluster
+                    sh '''
+                        gcloud container clusters get-credentials $CLUSTER_NAME \
+                        --region=$LOCATION \
+                        --project=$PROJECT_ID
+                    '''
+                }
             }
         }
 
