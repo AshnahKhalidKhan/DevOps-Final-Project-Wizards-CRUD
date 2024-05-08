@@ -42,6 +42,8 @@ pipeline {
         ///
         stage('Webhook Test') {
             steps {
+                echo 'NOTE-TO-SELF: Run Powershell as administrator and run this command before running this stage:'
+                echo 'ngrok http --domain=light-kit-positively.ngrok-free.app 8080'
                 echo 'Checking webhook...'
             }
         }
@@ -73,64 +75,6 @@ pipeline {
             }
         }
 
-        // stage('Build Backend') {
-        //     steps {
-        //         dir('backend') {
-        //             script {
-        //                 sh "docker build -t ${env.BACKEND_IMAGE} ."
-        //                 sh "docker push ${env.BACKEND_IMAGE}"
-        //             }
-        //         }
-        //     }
-        // }
-
-        // stage('Build Frontend') {
-        //     steps {
-        //         dir('frontend') {
-        //             script {
-        //                 sh "docker build -t ${env.FRONTEND_IMAGE} ."
-        //                 sh "docker push ${env.FRONTEND_IMAGE}"
-        //             }
-        //         }
-        //     }
-        // }
-
-        stage('Testing Google Cloud Platform') {
-            steps {
-                // sh 'gcloud --version'
-                sh 'gcloud auth activate-service-account --key-file="$GCLOUD_CREDS"'
-                // sh 'gcloud compute zones list'
-            }
-        }
-
-        // stage ('Deploy to GKE cluster') {
-        //     steps {
-        //         sh 'gcloud config set project $PROJECT_ID'
-        //         // // Set default region and location and what not uffffffffff
-        //         // sh '''
-        //         //     gcloud compute project-info add-metadata \ 
-        //         //     --metadata google-compute-default-region=asia-southeast2,google-compute-default-zone=asia-southeast2-a
-        //         // '''
-        //         // Create an Autopilot cluster
-        //         sh '''
-        //             gcloud container clusters create-auto $CLUSTER_NAME \
-        //             --location=$LOCATION \
-        //             --project=$PROJECT_ID
-        //         '''
-        //         // Connect to the cluster
-        //         sh '''
-        //             gcloud container clusters get-credentials $CLUSTER_NAME \
-        //             --location=$LOCATION \
-        //             --project=$PROJECT_ID
-        //         '''
-        //         // Verify the cluster mode is "autopilot: enabled: true"
-        //         sh '''
-        //             gcloud container clusters describe $CLUSTER_NAME \
-        //             --location=$LOCATION
-        //         '''
-        //     }
-        // }
-
         stage('Setup GKE Cluster') {
             steps {
                 script {
@@ -146,7 +90,8 @@ pipeline {
                             --region=$LOCATION \
                             --project=$PROJECT_ID
                         '''
-                    } else {
+                    }
+                    else {
                         echo 'Cluster already exists. Skipping creation...'
                     }
 
