@@ -93,7 +93,8 @@ pipeline {
                 sh 'gcloud config set project $PROJECT_ID'
                 // Set default region and location and what not uffffffffff
                 sh '''
-                    gcloud compute project-info add-metadata \ --metadata google-compute-default-region=asia-southeast2,google-compute-default-zone=asia-southeast2-a
+                    gcloud compute project-info add-metadata \ 
+                    --metadata google-compute-default-region=asia-southeast2,google-compute-default-zone=asia-southeast2-a
                 '''
                 // Create an Autopilot cluster
                 sh '''
