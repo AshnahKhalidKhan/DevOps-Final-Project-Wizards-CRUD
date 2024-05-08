@@ -58,10 +58,12 @@ pipeline {
             }
         }
 
-        stage('Building Images Through Docker Compose') {
+        stage('Build & Push Images') {
             steps {
                 script {
                     sh 'docker-compose up -d --build'
+                    sh "docker push ${env.BACKEND_IMAGE}"
+                    sh "docker push ${env.FRONTEND_IMAGE}"
                 }
             }
         }
