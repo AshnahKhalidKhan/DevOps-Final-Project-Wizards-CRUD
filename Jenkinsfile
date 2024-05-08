@@ -143,6 +143,7 @@ pipeline {
                     '''
 
                     sh 'gcloud components install gke-gcloud-auth-plugin'
+                    sh 'gcloud components list | grep gke-gcloud-auth-plugin || gcloud components install gke-gcloud-auth-plugin'
                 }
             }
         }
