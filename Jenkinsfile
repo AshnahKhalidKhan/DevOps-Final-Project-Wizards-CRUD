@@ -15,7 +15,7 @@ pipeline {
         CLIENT_EMAIL='service-account-ka-naam@devops-project-wizard-crud.iam.gserviceaccount.com'
         GCLOUD_CREDS=credentials('googlecloudplatform_id')
         PROJECT_ID = 'devops-project-wizard-crud'
-        CLUSTER_NAME = 'devops-project-cluster'
+        CLUSTER_NAME = 'devops-project-wizard-crud-gke'// 'devops-project-cluster'
         LOCATION = 'asia-southeast2'
         // CREDENTIALS_ID = 'multi-k8s'
         
@@ -85,11 +85,15 @@ pipeline {
                     def clusterExists = sh(script: "gcloud container clusters describe $CLUSTER_NAME --region $LOCATION --project $PROJECT_ID", returnStatus: true) == 0
                     if (!clusterExists) {
                         echo 'Cluster does not exist. Creating...'
-                        sh '''
-                            gcloud container clusters create-auto $CLUSTER_NAME \
-                            --region=$LOCATION \
-                            --project=$PROJECT_ID
-                        '''
+                        // sh '''
+                        //     gcloud container clusters create-auto $CLUSTER_NAME \
+                        //     --region=$LOCATION \
+                        //     --project=$PROJECT_ID
+                        // '''
+                        sh 'cd terraform'
+                        sh 'terraform init'
+                        sh 'terraform apply'
+                        sh 'cd ..'
                     }
                     else {
                         echo 'Cluster already exists. Skipping creation...'
