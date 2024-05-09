@@ -118,6 +118,11 @@ pipeline {
                     sh 'gcloud auth login'
                     sh 'gcloud config set project $PROJECT_ID'
                     sh 'gcloud components install gke-gcloud-auth-plugin'
+                    sh '''
+                        gcloud container clusters get-credentials $CLUSTER_NAME \
+                        --region=$LOCATION \
+                        --project=$PROJECT_ID
+                    '''
                     // sh 'minikube start'
                     // sh 'kubectl config get-contexts'
                     // sh 'kubectl config use-context minikube'
