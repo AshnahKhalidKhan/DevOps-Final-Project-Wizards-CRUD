@@ -16,7 +16,7 @@ pipeline {
         GCLOUD_CREDS=credentials('googlecloudplatform_id')
         PROJECT_ID = 'devops-project-wizard-crud'
         CLUSTER_NAME = 'devops-project-wizard-crud-gke'// 'devops-project-cluster'
-        LOCATION = 'asia-southeast2'
+        LOCATION = 'asia-southeast2-a'
         // CREDENTIALS_ID = 'multi-k8s'
         
     }
