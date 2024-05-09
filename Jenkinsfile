@@ -75,55 +75,51 @@ pipeline {
             }
         }
 
-        // stage('Setup GKE Cluster') {
-        //     steps {
-        //         script {
-        //             // Set the project ID
-        //             sh 'gcloud config set project $PROJECT_ID'
-
-        //             // Check if the cluster already exists
-        //             def clusterExists = sh(script: "gcloud container clusters describe $CLUSTER_NAME --region $LOCATION --project $PROJECT_ID", returnStatus: true) == 0
-        //             if (!clusterExists) {
-        //                 echo 'Cluster does not exist. Creating...'
-        //                 // sh '''
-        //                 //     gcloud container clusters create-auto $CLUSTER_NAME \
-        //                 //     --region=$LOCATION \
-        //                 //     --project=$PROJECT_ID
-        //                 // '''
-        //                 dir('terraform') {
-        //                     sh 'terraform init'
-        //                     sh 'terraform apply'
-        //                 }
-        //             }
-        //             else {
-        //                 echo 'Cluster already exists. Skipping creation...'
-        //             }
-
-        //             // Connect to the cluster
-        //             sh '''
-        //                 gcloud container clusters get-credentials $CLUSTER_NAME \
-        //                 --region=$LOCATION \
-        //                 --project=$PROJECT_ID
-        //             '''
-
-        //             sh 'gcloud components install gke-gcloud-auth-plugin'
-        //             // sh 'gcloud components list | grep gke-gcloud-auth-plugin || gcloud components install gke-gcloud-auth-plugin'
-        //         }
-        //     }
-        // }
-
-        stage('Apply Kubernetes manifests') {
+        stage('Setup GKE Cluster') {
             steps {
                 script {
-                    // sh 'gcloud auth login'
+                    // Set the project ID
                     sh 'gcloud config set project $PROJECT_ID'
-                    // sh 'gcloud components install gke-gcloud-auth-plugin'
-                    sh 'gcloud components list | grep gke-gcloud-auth-plugin || gcloud components install gke-gcloud-auth-plugin'
+                    sh 'gcloud components install gke-gcloud-auth-plugin'
+                    // Check if the cluster already exists
+                    def clusterExists = sh(script: "gcloud container clusters describe $CLUSTER_NAME --region $LOCATION --project $PROJECT_ID", returnStatus: true) == 0
+                    if (!clusterExists) {
+                        echo 'Cluster does not exist. Creating...'
+                        // sh '''
+                        //     gcloud container clusters create-auto $CLUSTER_NAME \
+                        //     --region=$LOCATION \
+                        //     --project=$PROJECT_ID
+                        // '''
+                        dir('terraform') {
+                            sh 'terraform init'
+                            sh 'terraform apply'
+                        }
+                    }
+                    else {
+                        echo 'Cluster already exists. Skipping creation...'
+                    }
+
+                    // Connect to the cluster
                     sh '''
                         gcloud container clusters get-credentials $CLUSTER_NAME \
                         --region=$LOCATION \
                         --project=$PROJECT_ID
                     '''
+                }
+            }
+        }
+
+        stage('Apply Kubernetes manifests') {
+            steps {
+                script {
+                    // sh 'gcloud auth login'
+                    // sh 'gcloud config set project $PROJECT_ID'
+                    // sh 'gcloud components install gke-gcloud-auth-plugin'
+                    // sh '''
+                    //     gcloud container clusters get-credentials $CLUSTER_NAME \
+                    //     --region=$LOCATION \
+                    //     --project=$PROJECT_ID
+                    // '''
                     // sh 'minikube start'
                     // sh 'kubectl config get-contexts'
                     // sh 'kubectl config use-context minikube'
