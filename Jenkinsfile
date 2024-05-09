@@ -90,10 +90,10 @@ pipeline {
                         //     --region=$LOCATION \
                         //     --project=$PROJECT_ID
                         // '''
-                        sh 'cd terraform'
-                        sh 'terraform init'
-                        sh 'terraform apply'
-                        sh 'cd ..'
+                        dir('terraform') {
+                            sh 'terraform init'
+                            sh 'terraform apply'
+                        }
                     }
                     else {
                         echo 'Cluster already exists. Skipping creation...'
