@@ -79,6 +79,7 @@ pipeline {
             steps {
                 script {
                     // Set the project ID
+                    sh 'gcloud auth application-default login'
                     sh 'gcloud config set project $PROJECT_ID'
                     sh 'gcloud components install gke-gcloud-auth-plugin'
                     // Check if the cluster already exists
