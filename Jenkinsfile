@@ -154,20 +154,20 @@ pipeline {
     //     // }
 
 
-    //     //Ash adding own test stage here
-    //     stage('Test') {
-    //         steps {
-    //             // Implement actual testing commands
-    //             sh 'echo "Run tests for backend and frontend"'
-    //             // For example, running unit tests for Node.js
-    //             dir('backend') {
-    //                 sh 'npm test'
-    //             }
-    //             dir('frontend') {
-    //                 sh 'npm test'
-    //             }
-    //         }
-    //     }
+        //Ash adding own test stage here
+        stage('Test') {
+            steps {
+                // Implement actual testing commands
+                sh 'echo "Run tests for backend and frontend"'
+                // For example, running unit tests for Node.js
+                dir('backend') {
+                    sh 'npm test'
+                }
+                dir('frontend') {
+                    sh 'npm test'
+                }
+            }
+        }
 
     //     stage('Cleanup') {
     //         steps {
