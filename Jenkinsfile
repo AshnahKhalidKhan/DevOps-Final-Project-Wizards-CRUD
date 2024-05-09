@@ -117,7 +117,8 @@ pipeline {
                 script {
                     // sh 'gcloud auth login'
                     sh 'gcloud config set project $PROJECT_ID'
-                    sh 'gcloud components install gke-gcloud-auth-plugin'
+                    // sh 'gcloud components install gke-gcloud-auth-plugin'
+                    sh 'gcloud components list | grep gke-gcloud-auth-plugin || gcloud components install gke-gcloud-auth-plugin'
                     sh '''
                         gcloud container clusters get-credentials $CLUSTER_NAME \
                         --region=$LOCATION \
