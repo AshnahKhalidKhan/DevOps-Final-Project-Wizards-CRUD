@@ -112,7 +112,7 @@ pipeline {
         //     }
         // }
 
-        stage('Apply k8s manifests') {
+        stage('Apply Kubernetes manifests') {
             steps {
                 script {
                     // sh 'gcloud auth login'
@@ -180,19 +180,19 @@ pipeline {
 
     post {
         always {
+            echo 'Cleaning up...'
             sh 'gcloud auth revoke $CLIENT_EMAIL'
-            // echo 'Cleaning up...'
-            // sh 'docker-compose down'
+            sh 'docker-compose down'
             // dir('terraform') {
             //     sh 'terraform destroy -auto-approve'
             // }
         }
-        // success {
-        //     echo 'Build and deployment were successful!'
-        // }
-        // failure {
-        //     echo 'Build or deployment failed.'
-        // }
+        success {
+            echo 'Build and deployment were successful!'
+        }
+        failure {
+            echo 'Build or deployment failed.'
+        }
     }
 }
 
