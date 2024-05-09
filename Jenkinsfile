@@ -78,8 +78,6 @@ pipeline {
         // stage('Setup GKE Cluster') {
         //     steps {
         //         script {
-
-
         //             // Set the project ID
         //             sh 'gcloud config set project $PROJECT_ID'
 
@@ -117,6 +115,9 @@ pipeline {
         stage('Apply k8s manifests') {
             steps {
                 script {
+                    sh 'gcloud auth login'
+                    sh 'gcloud config set project $PROJECT_ID'
+                    sh 'gcloud components install gke-gcloud-auth-plugin'
                     // sh 'minikube start'
                     // sh 'kubectl config get-contexts'
                     // sh 'kubectl config use-context minikube'
