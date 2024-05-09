@@ -59,9 +59,6 @@ pipeline {
             steps {
                 script {
                     withCredentials([usernamePassword(credentialsId: 'dockerhub_id', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
-                        // sh 'echo $DOCKER_PASSWORD' | docker login -u $DOCKER_USERNAME -p="${DOCKER_PASSWORD}"'
-                        echo 'docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"'
-                        
                         sh 'docker login -u="${DOCKER_USERNAME}" -p="${DOCKER_PASSWORD}"'
                     }
                 }
@@ -181,22 +178,22 @@ pipeline {
     //     }
     }
 
-    post {
-        always {
-            echo 'Cleaning up...'
-            sh 'gcloud auth revoke $CLIENT_EMAIL'
-            sh 'docker-compose down'
-            // dir('terraform') {
-            //     sh 'terraform destroy -auto-approve'
-            // }
-        }
-        success {
-            echo 'Build and deployment were successful!'
-        }
-        failure {
-            echo 'Build or deployment failed.'
-        }
-    }
+    // post {
+    //     always {
+    //         echo 'Cleaning up...'
+    //         sh 'gcloud auth revoke $CLIENT_EMAIL'
+    //         sh 'docker-compose down'
+    //         // dir('terraform') {
+    //         //     sh 'terraform destroy -auto-approve'
+    //         // }
+    //     }
+    //     success {
+    //         echo 'Build and deployment were successful!'
+    //     }
+    //     failure {
+    //         echo 'Build or deployment failed.'
+    //     }
+    // }
 }
 
 //SUMMARY REPORT:
