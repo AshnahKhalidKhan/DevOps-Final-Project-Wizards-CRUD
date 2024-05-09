@@ -115,7 +115,7 @@ pipeline {
         stage('Apply k8s manifests') {
             steps {
                 script {
-                    sh 'gcloud auth login'
+                    // sh 'gcloud auth login'
                     sh 'gcloud config set project $PROJECT_ID'
                     sh 'gcloud components install gke-gcloud-auth-plugin'
                     sh '''
