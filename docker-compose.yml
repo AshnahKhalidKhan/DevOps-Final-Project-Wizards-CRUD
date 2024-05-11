@@ -9,7 +9,7 @@ services:
       context: ./backend # Specifies the directory containing the Dockerfile as the build context for the backend service.
       dockerfile: Dockerfile # Points to the Dockerfile used for building the backend service.
     ports:
-      - "4000:5000" # Maps port 5000 of the container to port 5000 on the host, enabling access to the backend service.
+      - "4000:4000"
     environment:
       - NODE_ENV=production # Sets an environment variable inside the container to indicate production mode.
     image: ashnahkhalidkhan00210/mongo-crud-backend:latest # Names the image built from the Dockerfile for easier reference.
