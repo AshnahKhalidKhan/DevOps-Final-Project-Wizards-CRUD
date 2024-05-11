@@ -15,7 +15,7 @@ app.use(cors({ origin: FRONTEND_IP, credentials: true }));
 
 app.get("/", (req, res) => {app.use(bodyParser.json());
 
-  res.send("<h1>Welcome to the Wizard API</h1>");
+  res.send("<h1>Welcome to the Wizard API11111111111111111111</h1>");
 });
 
 app.use('/wizards', wizardRoute);
