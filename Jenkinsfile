@@ -79,7 +79,7 @@ pipeline {
             steps {
                 script {
                     // Set the project ID
-                    sh 'gcloud auth application-default login'
+                    // sh 'gcloud auth application-default login'
                     sh 'gcloud config set project $PROJECT_ID'
                     sh 'gcloud components install gke-gcloud-auth-plugin'
                     // Check if the cluster already exists
@@ -155,19 +155,19 @@ pipeline {
 
 
         //Ash adding own test stage here
-        stage('Test') {
-            steps {
-                // Implement actual testing commands
-                sh 'echo "Run tests for backend and frontend"'
-                // For example, running unit tests for Node.js
-                dir('backend') {
-                    sh 'npm test'
-                }
-                // dir('frontend') {
-                //     sh 'npm test'
-                // }
-            }
-        }
+        // stage('Test') {
+        //     steps {
+        //         // Implement actual testing commands
+        //         sh 'echo "Run tests for backend and frontend"'
+        //         // For example, running unit tests for Node.js
+        //         dir('backend') {
+        //             sh 'npm test'
+        //         }
+        //         // dir('frontend') {
+        //         //     sh 'npm test'
+        //         // }
+        //     }
+        // }
 
     //     stage('Cleanup') {
     //         steps {
