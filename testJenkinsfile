@@ -15,7 +15,7 @@ pipeline {
         CLIENT_EMAIL='service-account-ka-naam@devops-project-wizard-crud.iam.gserviceaccount.com'
         GCLOUD_CREDS=credentials('googlecloudplatform_id')
         PROJECT_ID = 'devops-project-wizard-crud'
-        CLUSTER_NAME = 'devops-project-wizard-crud-cluster1'// 'devops-project-cluster'
+        CLUSTER_NAME = 'devops-project-wizard-crud-cluster'// 'devops-project-cluster'
         LOCATION = 'asia-southeast2-a'
         // CREDENTIALS_ID = 'multi-k8s'
         
