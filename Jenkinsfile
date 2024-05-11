@@ -101,7 +101,7 @@ pipeline {
     post {
         always {
             echo 'Cleaning up...'
-            sh 'gcloud auth revoke $CLIENT_EMAIL'
+            // sh 'gcloud auth revoke $CLIENT_EMAIL'
             sh 'docker-compose down'
             // dir('terraform') {
             //     sh 'terraform destroy -auto-approve'
