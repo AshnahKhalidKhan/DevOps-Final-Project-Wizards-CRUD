@@ -17,7 +17,6 @@ RUN npm install
 # This includes all files and directories in the build context, except what is defined in .dockerignore.
 COPY . .
 
-# Informing Docker that the container listens on port 5000 at runtime.
 # This does not actually publish the port. It functions as a type of documentation between the person who builds the image and the person who runs the container.
 EXPOSE 4000
 

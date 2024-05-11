@@ -17,7 +17,7 @@ spec:
         # image: moatas19m/mongo-crud-backend:latest
         image: ashnahkhalidkhan00210/mongo-crud-backend:latest
         ports:
-        - containerPort: 5000
+        - containerPort: 4000
         env:
         - name: NODE_ENV
           value: "production"

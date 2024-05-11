@@ -6,6 +6,6 @@ spec:
   type: LoadBalancer
   ports:
   - port: 4000  # Externally exposed port
-    targetPort: 5000  # Container's listening port
+    targetPort: 4000  # Container's listening port
   selector:
     app: backend
