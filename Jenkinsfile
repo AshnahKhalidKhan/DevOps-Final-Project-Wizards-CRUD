@@ -13,7 +13,7 @@ pipeline {
     }
 
     stages {
-        stage('Webhook Test') {
+        stage('Webhook Test') { //check if webhook working
             steps {
                 echo 'NOTE-TO-SELF: Run Powershell as administrator and run this command before running this stage:'
                 echo 'ngrok http --domain=light-kit-positively.ngrok-free.app 8080'
