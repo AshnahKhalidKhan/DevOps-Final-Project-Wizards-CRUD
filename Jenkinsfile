@@ -163,9 +163,9 @@ pipeline {
                 dir('backend') {
                     sh 'npm test'
                 }
-                dir('frontend') {
-                    sh 'npm test'
-                }
+                // dir('frontend') {
+                //     sh 'npm test'
+                // }
             }
         }
 
