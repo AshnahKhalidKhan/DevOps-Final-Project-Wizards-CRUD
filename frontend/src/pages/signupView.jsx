@@ -17,7 +17,7 @@ export default function SignupView() {
       password: password,
     };
 
-    const response = await axios.post("http://localhost:5000/signup", formData);
+    const response = await axios.post("http://34.128.89.226:4000/signup", formData);
     if (response.status === 200) {
       navigate("/login");
     } else {

@@ -29,7 +29,7 @@ mongoose
   .connect(dbURI)
   .then(() =>
     app.listen(BACKEND_PORT, () =>
-      console.log(`Server running on port: http://localhost:${BACKEND_PORT}`)
+      console.log(`Server running on port: http://34.128.89.226:${BACKEND_PORT}`)
     )
   )
   .catch((err) => console.log(err));

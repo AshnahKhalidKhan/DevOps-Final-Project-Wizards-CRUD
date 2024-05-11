@@ -19,7 +19,7 @@ COPY . .
 
 # Informing Docker that the container listens on port 5000 at runtime.
 # This does not actually publish the port. It functions as a type of documentation between the person who builds the image and the person who runs the container.
-EXPOSE 5000
+EXPOSE 4000
 
 # Defining the command to run the application.
 # This uses npm start which should be defined in your package.json under the scripts section.
