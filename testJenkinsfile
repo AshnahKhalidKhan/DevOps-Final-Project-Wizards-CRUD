@@ -1,18 +1,45 @@
 pipeline {
     agent any
+
+    // NOTE-TO-SELF: Turn Docker Desktop on before building Jenkinsfole cause error ayay ga
+
     environment {
+        // BACKEND_IMAGE = "moatas19m/mongo-crud-backend:latest"
+        // FRONTEND_IMAGE = "moatas19m/mongo-crud-frontend:latest"
         BACKEND_IMAGE = "ashnahkhalidkhan00210/mongo-crud-backend:latest"
         FRONTEND_IMAGE = "ashnahkhalidkhan00210/mongo-crud-frontend:latest"
+        // KUBECONFIG = '/var/lib/jenkins/.kube/config'
+        // KUBECONFIG = 'C:\\Users\\namra\\.minikube\\config'
         KUBECONFIG = 'C:\\Users\\namra\\.kube\\config'
         CLOUDSDK_CORE_PROJECT='devops-project-wizard-crud'
         CLIENT_EMAIL='service-account-ka-naam@devops-project-wizard-crud.iam.gserviceaccount.com'
         GCLOUD_CREDS=credentials('googlecloudplatform_id')
         PROJECT_ID = 'devops-project-wizard-crud'
-        CLUSTER_NAME = 'devops-project-wizard-crud-cluster'
+        CLUSTER_NAME = 'devops-project-wizard-crud-cluster'// 'devops-project-cluster'
         LOCATION = 'asia-southeast2-a'
+        // CREDENTIALS_ID = 'multi-k8s'
+        
     }
 
     stages {
+
+        // Ashnah adding stuff here
+        // stage('Initialize Terraform') {
+        //     steps {
+        //         dir('terraform') {
+        //             sh 'terraform init'
+        //         }
+        //     }
+        // }
+
+        // stage('Apply Terraform') {
+        //     steps {
+        //         dir('terraform') {
+        //             sh 'terraform apply -auto-approve'
+        //         }
+        //     }
+        // }
+        ///
         stage('Webhook Test') {
             steps {
                 echo 'NOTE-TO-SELF: Run Powershell as administrator and run this command before running this stage:'
@@ -51,11 +78,19 @@ pipeline {
         stage('Setup GKE Cluster') {
             steps {
                 script {
+                    // Set the project ID
+                    // sh 'gcloud auth application-default login'
                     sh 'gcloud config set project $PROJECT_ID'
                     sh 'gcloud components install gke-gcloud-auth-plugin'
+                    // Check if the cluster already exists
                     def clusterExists = sh(script: "gcloud container clusters describe $CLUSTER_NAME --region $LOCATION --project $PROJECT_ID", returnStatus: true) == 0
                     if (!clusterExists) {
                         echo 'Cluster does not exist. Creating...'
+                        // sh '''
+                        //     gcloud container clusters create-auto $CLUSTER_NAME \
+                        //     --region=$LOCATION \
+                        //     --project=$PROJECT_ID
+                        // '''
                         dir('terraform') {
                             sh 'terraform init'
                             sh 'terraform apply'
@@ -64,6 +99,8 @@ pipeline {
                     else {
                         echo 'Cluster already exists. Skipping creation...'
                     }
+
+                    // Connect to the cluster
                     sh '''
                         gcloud container clusters get-credentials $CLUSTER_NAME \
                         --region=$LOCATION \
@@ -76,6 +113,33 @@ pipeline {
         stage('Apply Kubernetes manifests') {
             steps {
                 script {
+                    // sh 'gcloud auth login'
+                    // sh 'gcloud config set project $PROJECT_ID'
+                    // sh 'gcloud components install gke-gcloud-auth-plugin'
+                    // sh '''
+                    //     gcloud container clusters get-credentials $CLUSTER_NAME \
+                    //     --region=$LOCATION \
+                    //     --project=$PROJECT_ID
+                    // '''
+                    // sh 'minikube start'
+                    // sh 'kubectl config get-contexts'
+                    // sh 'kubectl config use-context minikube'
+                    // sh 'kubectl apply -f kubernetes/backend/backend-deployment.yaml --validate=false'
+                    // sh 'kubectl apply -f kubernetes/backend/backend-service.yaml --validate=false'
+                    // sh 'kubectl apply -f kubernetes/frontend/frontend-deployment.yaml --validate=false'
+                    // sh 'kubectl apply -f kubernetes/frontend/frontend-service.yaml --validate=false'
+                    // sh 'kubectl apply -f kubernetes/mongo-crud-ingress.yaml --validate=false'
+                    // sh 'kubectl apply -f kubernetes/mongo-crud-load-balancer.yaml --validate=false'
+                    
+
+                    // sh 'kubectl apply -f kubernetes/backend/backend-deployment.yaml'
+                    // sh 'kubectl apply -f kubernetes/backend/backend-service.yaml'
+                    // sh 'kubectl apply -f kubernetes/frontend/frontend-deployment.yaml'
+                    // sh 'kubectl apply -f kubernetes/frontend/frontend-service.yaml'
+                    // sh 'kubectl apply -f kubernetes/mongo-crud-ingress.yaml'
+                    // sh 'kubectl apply -f kubernetes/mongo-crud-load-balancer.yaml'
+
+                    
                     sh 'kubectl apply -f kubernetes/backend/'
                     sh 'kubectl apply -f kubernetes/frontend/'
                     sh 'kubectl apply -f kubernetes/'
@@ -83,6 +147,14 @@ pipeline {
             }
         }
 
+    //     // stage('Test') {
+    //     //     steps {
+    //     //         echo 'Run tests here'
+    //     //     }
+    //     // }
+
+
+        //Ash adding own test stage here
         // stage('Test') {
         //     steps {
         //         // Implement actual testing commands
@@ -96,24 +168,30 @@ pipeline {
         //         // }
         //     }
         // }
+
+    //     stage('Cleanup') {
+    //         steps {
+    //             echo 'Cleanup tasks if necessary'
+    //         }
+    //     }
     }
 
-    post {
-        always {
-            echo 'Cleaning up...'
-            sh 'gcloud auth revoke $CLIENT_EMAIL'
-            sh 'docker-compose down'
-            // dir('terraform') {
-            //     sh 'terraform destroy -auto-approve'
-            // }
-        }
-        success {
-            echo 'Build and deployment were successful!'
-        }
-        failure {
-            echo 'Build or deployment failed.'
-        }
-    }
+    // post {
+    //     always {
+    //         echo 'Cleaning up...'
+    //         sh 'gcloud auth revoke $CLIENT_EMAIL'
+    //         sh 'docker-compose down'
+    //         // dir('terraform') {
+    //         //     sh 'terraform destroy -auto-approve'
+    //         // }
+    //     }
+    //     success {
+    //         echo 'Build and deployment were successful!'
+    //     }
+    //     failure {
+    //         echo 'Build or deployment failed.'
+    //     }
+    // }
 }
 
 //SUMMARY REPORT:
