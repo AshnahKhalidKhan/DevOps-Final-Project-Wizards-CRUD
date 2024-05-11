@@ -103,9 +103,6 @@ pipeline {
             echo 'Cleaning up...'
             // sh 'gcloud auth revoke $CLIENT_EMAIL'
             sh 'docker-compose down'
-            // dir('terraform') {
-            //     sh 'terraform destroy -auto-approve'
-            // }
         }
         success {
             echo 'Build and deployment were successful!'
