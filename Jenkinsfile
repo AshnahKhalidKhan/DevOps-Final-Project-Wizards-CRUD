@@ -102,7 +102,7 @@ pipeline {
         always {
             echo 'Cleaning up...'
             // sh 'gcloud auth revoke $CLIENT_EMAIL'
-            sh 'docker-compose down'
+            // sh 'docker-compose down'
         }
         success {
             echo 'Build and deployment were successful!'
