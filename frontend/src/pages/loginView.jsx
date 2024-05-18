@@ -17,7 +17,8 @@ export default function LoginView() {
       password: password,
     };
 
-    const response = await axios.post("http://34.128.89.226:4000/login", formData);
+    // const response = await axios.post("http://34.128.89.226:4000/login", formData);
+    const response = await axios.post(`${process.env.REACT_APP_API_URL}/login`, formData);
     const token = response.data.token;
 
     // Store the token in local storage

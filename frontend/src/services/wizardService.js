@@ -1,6 +1,7 @@
 import axios from "axios";
 
-const baseURL = "http://34.128.89.226:4000/wizards";
+// const baseURL = "http://34.128.89.226:4000/wizards";
+const baseURL = `${process.env.REACT_APP_API_URL}/wizards`;
 
 export const fetchWizards = async () => {
   const response = await axios.get(baseURL);
