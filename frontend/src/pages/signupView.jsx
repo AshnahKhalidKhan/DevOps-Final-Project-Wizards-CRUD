@@ -18,7 +18,7 @@ export default function SignupView() {
     };
 
     // const response = await axios.post("http://34.128.89.226:4000/signup", formData);
-    const response = await axios.post(`${process.env.REACT_APP_API_URL}/signup`, formData);
+    const response = await axios.post(`${process.env.REACT_APP_API_URL}/signuppppppppppppp`, formData);
     if (response.status === 200) {
       navigate("/login");
     } else {
